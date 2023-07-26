@@ -1,0 +1,41 @@
+/* Pour personnaliser la taille de la police dans les en-têtes h1 et h2 */
+h1, h2 {
+  font-size: 24px;
+}
+
+/* Pour personnaliser le fond et la couleur du texte dans le footer */
+.footer-inline {
+  
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 8px;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* Styles pour les éléments de la voiture */
+.voiture-item {
+  padding: 10px;
+}
+
+.voiture-item-image {
+  max-width: 100%;
+}
+
+.voiture-item-heading {
+  margin: 10px 0;
+}
+
+.voiture-item-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.voiture-item-price {
+  font-size: 16px;
+}
+
+.voiture-item-description {
+  font-size: 14px;
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            {% block title %}
+                Garage V-Perrot
+            {% endblock %}
+        </title>
+     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫
+        ️</text></svg>">
+        
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+            {{ encore_entry_link_tags('app') }}
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans&display=swap" rel="stylesheet">
+            
+        {% endblock %}
+
+
+
+    </head>
+    <body>
+    {% block header %}
+        <nav class="navbar navbar-expand-lg one">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Quai-Antique</a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                     {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item ">
+                            <a class="nav-link one" href="/admin">admin</a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item ">
+                            <a class="nav-link one" aria-current="page" href="/">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link one" href="/menu">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link one" href="/reservation/new">reservation</a>
+                        </li>
+                    </ul>
+
+                    {# verifie si l'utilisateur est conecter #}
+                    {% if app.user %}
+                        Bienvenue<br>
+                        {{ app.user.prenom }} {{ app.user.nom }}<br>
+                        <a href="/logout">Se déconnecter</a>
+                    {% else %}
+                        <a href="/login">Se connecter</a>
+                    {% endif %}           
+                    
+                </div>
+            </div>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- Champs de recherche -->
+        <form id="filter-form"  >
+                    <label for="prix_min">Prix min :</label>
+        <input type="number" id="prix_min" name="prix_min" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="prix_max">Prix max :</label>
+        <input type="number" id="prix_max" name="prix_max" class="form-control">
+    </div>
+     
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+
+        </form>
+    </div>
+
+        </nav>
+
+    {% endblock %}
+     {% block body %}{% endblock %}
+
+   {% block footer %}
+        {% include 'includes/footer.html.twig' with {'horaires': horaires} %}
+    {% endblock %}
+    {% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+       
+       <script href="{{ asset('app.js') }}"></script>
+ 
+{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,15 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+contact:
+    path: /contact
+    controller: App\Controller\ContactController::contact
+search:
+    path: /search
+    controller: App\Controller\AccueilController::search
+    methods: [POST]
+kernel:
+    resource: App\Kernel
+    type: attribute

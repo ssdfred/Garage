@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Garage V.Parrot
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<h2>Véhicules d'occasion</h2>
+		<div class="row">
+			{% for voiture in voitures %}
+				<div class="col-md-4 voiture-item">
+					{% if voiture.id %}
+						<h3 class="visually-hidden" id="IDvoiture">
+							{{ voiture.id }}
+						</h3>
+					{% endif %}
+					{% if voiture.image %}
+						<img class="voiture-item-image" src="{{ asset('uploads/Voiture/' ~ voiture.image) }}" alt="">
+					{% endif %}
+
+					{% if voiture.titre %}
+						<h3 class="voiture-item-heading" id="sujet">
+							<span class="voiture-item-name" id="sujet-titre">{{ voiture.titre }}</span>
+						</h3>
+
+					{% endif %}
+					{% if voiture.anneeMiseCirculation %}
+						<span class="voiture-item-annee" id="sujet-annee">{{ voiture.anneeMiseCirculation|date('d/m/Y') }}</span>
+					{% endif %}
+					{% if voiture.prix %}
+						<span class="voiture-item-price">{{ voiture.prix / 100 }}€</span>
+					{% endif %}
+
+
+					{% if voiture.description %}
+						<p class="visually-hidden" id="description">
+							{{ voiture.description }}
+						</p>
+					{% endif %}
+					<button class="desc btn-primary" id="buttonDescription">Voir la description</button>
+
+
+					<a href="contact" class="btn-primary" id="contact-form">Contact</a>
+
+				</div>
+
+
+				{% if loop.index % 3 == 0 %}
+					<div class="clearfix"></div>
+				{% endif %}
+
+			{% endfor %}
+		</div>
+
+<div id="results">
+
+</div>
+
+{% endblock %}
