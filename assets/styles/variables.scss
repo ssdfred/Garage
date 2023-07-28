@@ -1,0 +1,21 @@
+// Import des variables Bootstrap
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+//  personnalisations
+$primary-color: #ff0000;
+$secondary-color: #00ff00;
+
+
+// Écrase les variables Bootstrap avec mes valeurs personnalisées
+$theme-colors: (
+  "primary": $primary-color,
+  "secondary": $secondary-color,
+
+);
+
+// Importe à nouveau les fichiers Bootstrap pour tenir compte des modifications
+
+@import "bootstrap/scss/variables";
+
+

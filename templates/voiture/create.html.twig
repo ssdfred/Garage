@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une voiture{% endblock %}
+
+{% block body %}
+    <h1>Créer une voiture</h1>
+
+   {{ form_start(form) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.prix) }}
+    {{ form_row(form.image) }}
+    {{ form_row(form.anneeMiseCirculation) }}
+    {{ form_row(form.kilometrage) }}
+    {{ form_row(form.galerieImages) }}
+    {{ form_row(form.caracteristiques) }}
+    {{ form_row(form.equipementsOptions) }}
+
+    <button type="submit">Enregistrer</button>
+{{ form_end(form) }}
+
+{% endblock %}

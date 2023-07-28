@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enregistrement{% endblock %}
+
+{% block body %}
+    <h1>Enregistrement</h1>
+
+    {{ form_start(form, {'attr': {'class': 'container'}}) }}
+    {{form_row(form.nom)}}
+   {#  {% if is_granted('ROLE_ADMIN') %} #}
+    {{form_row(form.roles)}}
+ {#    {% endif %}     #}
+    
+    
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+   
+    {{ form_rest(form) }}
+
+    <input class="btn btn-success mt-2" type="submit" value="Créer le compte">
+
+
+
+{% endblock %}

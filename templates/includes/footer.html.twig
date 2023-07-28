@@ -1,0 +1,48 @@
+{% block footer %}
+
+<footer class="footer footer-inline">
+    <div class="container-footer">
+        <div class="row row-inline">
+            <div class="col-md-6">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="{{ path('accueil') }}">Accueil</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="row row-inline">
+            <div class="col-md-4">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><p class="footer-contact">Téléphone : 04.67.76.06.24</p></li>
+                    <li class="list-inline-item"><p class="footer-contact">Adresse : 22 boulevard de Verdun, 34500, Béziers</p></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h1 class="footer-title">Mon site</h1>
+            </div>
+            <div class="col-md-4">
+                <h2 class="footer-title">Horaires d'ouverture</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Jour</th>
+                            <th>Ouverture</th>
+                            <th>Fermeture</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for horaire in horaires %}
+                            <tr>
+                                <td>{{ horaire.jourSemaine }}</td>
+                                <td>{{ horaire.heureOuverture|date('H:i') }}</td>
+                                <td>{{ horaire.heureFermeture|date('H:i') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}

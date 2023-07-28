@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la voiture{% endblock %}
+
+{% block body %}
+    <h1>Détails de la voiture</h1>
+
+    {% for voiture in voitures %}
+    <h3>{{ voiture.titre }}</h3>
+    <p>{{ voiture.description }}</p>
+    <p>Prix : {{ voiture.prix }}</p>
+    <!-- Afficher d'autres propriétés de la voiture... -->
+        <h3>{{ voiture.titre }}</h3>
+        <p>{{ voiture.description }}</p>
+        <p>Prix : {{ voiture.prix }}</p>
+        <!-- Afficher d'autres propriétés de la voiture... -->
+
+    {% endfor %}
+
+    
+
