@@ -82,6 +82,7 @@
             "@auto-scripts"
         ],
         "compile": [
+            "@php app/console assetic:dump --env=prod --no-debug",
             "php bin/console doctrine:schema:update --force"
         ]
     },
