@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Message\SearchVoitureMessagehandler;
 use App\Repository\HoraireRepository;
 use App\Repository\VoitureRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Mailer\Messenger\MessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class AccueilController extends AbstractController
@@ -28,7 +26,7 @@ class AccueilController extends AbstractController
     }
 
     #[Route('/search', name: 'search', methods: ['POST'])]
-    public function search(Request $request, MessageBusInterface $messageBus, VoitureRepository $voitureRepository): JsonResponse
+    public function search(Request $request,VoitureRepository $voitureRepository): JsonResponse
     {
         $prixMin = (float) $request->request->get('prix_min');
         $prixMax = (float) $request->request->get('prix_max');

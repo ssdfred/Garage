@@ -2,57 +2,21 @@
 import './styles/app.scss';
 import 'bootstrap';
 
+const buttonDescription = document.getElementById("buttonDescription");
 
-//var contactLink = document.querySelector('#contact-form');
-//var sujetInput = document.getElementById('sujet-titre').innerText;
-//var anneeInput = document.getElementById('sujet-annee').innerText
-//;
-//var info = sujetInput + anneeInput;
-//alert(info);
+const description = document.getElementById("description");
+buttonDescription.onclick = (e) => {
+    description.classList.toggle("visually-hidden");
+    if (buttonDescription.innerText === "Voir la description") {
+        buttonDescription.innerText = "Cacher la description";
+    } else {
+        buttonDescription.innerText = "Voir la description";
+    }
+}
 
-//if (document.getElementById('sujet-titre') && document.getElementById('sujet-annee') != null) {
-//;
-//        alert(info);
-//        contactLink.addEventListener('click', function () {
-//                contactLink.insertAdjacentText('beforeend', info.innerText)
-//                alert(contactLink);
-//                document.getElementById('sujet').setAttribute('sujet', info);
-//                alert(info);
-//        });
-//}
-//lert(info);
-//ontactLink.addEventListener('click',
-//   function (event) {
-//       event.preventDefault();
-
-
-//       alert(contactLink);
-
-//       contactLink.value = info;
-//      // var  titre = contactLink.setAttribute('data-titre');
-//      titre.document.getElementById('sujet').createAttribute('sujet', info);
-//lert(info);
-//       window.location.href = "contact";
-//   });
-//const buttonDescription = document.getElementById("buttonDescription");
-//
-//const description = document.getElementById("description");
-//buttonDescription.onclick = (e) => {
-//    description.classList.toggle("visually-hidden");
-//    if (buttonDescription.innerText === "Voir la description") {
-//        buttonDescription.innerText = "Cacher la description";
-//    } else {
-//        buttonDescription.innerText = "Voir la description";
-//    }
-//}
- // Fonction de recherche pour les voitures
- // Fonction de recherche pour les voitures
-//function convertToDecimal(value) {
-//    return parseFloat(value.replace(',', '.'));
-//}
 
 const searchForm = document.getElementById('filter-form');
-const searchResults = document.getElementById('results');
+const searchResults = document.querySelector('body');
 
 searchForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -80,15 +44,15 @@ searchForm.addEventListener('submit', (event) => {
            
             const voitureDiv = document.createElement('div'); // Création d'un élément div
             voitureDiv.classList.add('voiture'); // Ajout de la classe "voiture" à l'élément div
-           
+           searchResults.innerHTML = ''; // Suppression du contenu HTML body
             voitureDiv.innerHTML= `
-                
+                    
                     <h3>${result.titre}</h3>
                     <p>Année: ${result.anneeMiseCirculation}</p>
                     ${result.image ? `<img src="${imageUrl}" alt="${result.titre}" />` : ''}
                     <p>Description: ${result.description}</p>
-                    <p>Prix: ${result.prix}€</p>
-                
+                    <p>Prix: ${result.prix}€</p> 
+                    <a class="btn btn-primary" href="/" >Retour</a>               
             `;
             searchResults.appendChild(voitureDiv); // Ajout du div dans la div parente
 
@@ -96,6 +60,6 @@ searchForm.addEventListener('submit', (event) => {
     })
     .catch(error => {
         console.error('Erreur lors de la requête :', error.message);
-        searchResults.innerHTML = '<p>Une erreur s\'est produite lors de la recherche.</p>';
+        searchResults.innerHTML = '<p>Une erreur s\'est produite lors de la recherche,veuillez renseigner le pix minimun et le prix maximun.</p>';
     });
 });

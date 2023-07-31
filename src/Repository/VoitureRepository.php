@@ -39,8 +39,6 @@ class VoitureRepository extends ServiceEntityRepository
         }
     }
 
-   
-
     public function findVoituresByCriteria($prix, $kilometrage, $anneeMiseCirculation)
     {
         return $this->createQueryBuilder('v')
@@ -69,16 +67,17 @@ class VoitureRepository extends ServiceEntityRepository
 
     public function findAllByPrixRange(float $prixMin, float $prixMax): array
     {
-        dump($prixMin, $prixMax); // Vérifier les valeurs des paramètres
-        $query = $this->createQueryBuilder('v')
+        // Récupérer toutes les voitures qui se trouvent dans la plage de prix donnée
+        $results = $this->createQueryBuilder('v')
             ->where('v.prix >= :prixMin')
             ->andWhere('v.prix <= :prixMax')
             ->setParameter('prixMin', $prixMin)
             ->setParameter('prixMax', $prixMax)
             ->getQuery()
             ->getResult();
-        dump($query); // Vérifier les résultats de la requête
-        return $query;
+            dump($results); // Vérifier les résultats de la requête
+        return $results;
+       
     }
 
  
