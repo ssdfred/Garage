@@ -47,7 +47,7 @@ class ContactController extends AbstractController
             $em->persist($formulaireContact);
             $em->flush();
            
-            $email = (new Email())
+           /* $email = (new Email())
             ->from($formulaireContact->getEmail())
             ->to('admin@example.com')
             //->cc('cc@example.com')
@@ -62,7 +62,7 @@ class ContactController extends AbstractController
         $transport = new EsmtpTransport(
             host: 'oauth-smtp.domain.tld',
             authenticators: [new XOAuth2Authenticator()]
-        );
+        );*/
             return $this->redirectToRoute('accueil');
         }
 

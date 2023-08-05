@@ -1,6 +1,4 @@
 framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
-        sendmail_path: '/usr/sbin/sendmail -t -i'
-        sender: 'admin@example.com'
-        recipients: ['foo@example.com', 'bar@example.com']
+     
