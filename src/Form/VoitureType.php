@@ -8,20 +8,21 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 class VoitureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('titre', TextType::class)
-            ->add('description', TextareaType::class)
+            ->add('description', TextType::class)
             ->add('prix', NumberType::class)
             ->add('image', TextType::class)
             ->add('anneeMiseCirculation', DateType::class, [
               'label' => 'Année de mise en circulation',
               'format' => 'dd/MM/yyyy',
-              'years' => range(1900, date('Y')),
+              'html5' => false,
               'widget' => 'single_text',
           ])
             ->add('kilometrage', NumberType::class)

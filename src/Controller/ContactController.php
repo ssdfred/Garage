@@ -12,6 +12,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Transport\Smtp\Auth\XOAuth2Authenticator;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 
 class ContactController extends AbstractController
 {
@@ -20,7 +24,10 @@ class ContactController extends AbstractController
         Request $request,
         HoraireRepository $horaireRepository,
         VoitureRepository $voitureRepository,
-        ManagerRegistry $doctrine
+        ManagerRegistry $doctrine,
+        EsmtpTransport $transport,
+        MailerInterface $mailer
+        
     ): Response {
         $horaires = $horaireRepository->findAll();
         $voitures = $voitureRepository->findAll();
@@ -39,14 +46,30 @@ class ContactController extends AbstractController
             $em = $doctrine->getManager();
             $em->persist($formulaireContact);
             $em->flush();
+           
+            $email = (new Email())
+            ->from($formulaireContact->getEmail())
+            ->to('admin@example.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject($formulaireContact->getSujet())
+            //->text($formulaireContact->getMessage())
+            ->html($formulaireContact->getMessage());
 
+        $mailer->send($email);
+        $transport = new EsmtpTransport(
+            host: 'oauth-smtp.domain.tld',
+            authenticators: [new XOAuth2Authenticator()]
+        );
             return $this->redirectToRoute('accueil');
         }
 
         return $this->render('contact/contact.html.twig', [
-            'form' => $form->createView(),
             'horaires' => $horaires,
             'voitures' => $voitures,
+            'form' => $form->createView(),
         ]);
     }
 }

@@ -4,11 +4,16 @@
 
 {% block body %}
     <h1>Nous contacter</h1>
-    {% for voiture in voitures %}
-        
-    
 
-   {% endfor %} 
+   {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="contact" type="submit">
+        Contact 
+    </button>
+    {{ form_end(form) }}
+<pre>
+    {{ dump(form) }}
+</pre>
     <form id="contact-form" method="POST" action="{{ path('contact') }}">
         <div class="form-group">
             <label for="nom">Nom :</label>
@@ -39,4 +44,31 @@
     <button class="contact" type="submit">
         Contact
     </button>
+   <pre>
+    {{ dump(form) }}
+   </pre>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    <script> 
+    window.onload = () => {
+    // Récupérer l'élément du formulaire de contact
+    const formulaireContact = document.getElementById("contact-form");
+
+    // Écouter le clic sur le bouton "Contact" de chaque voiture
+    document.querySelectorAll(".btn-primary.contact").forEach(button => {
+        button.addEventListener("click", () => {
+            // Récupérer le titre de la voiture
+            const titre = button.parentElement.querySelector(".sujet-titre").textContent;
+            dump(titre);
+            // Pré-remplir le champ "sujet" du formulaire de contact avec le titre de la voiture
+            const sujetInput = formulaireContact.querySelector("#sujet");
+            sujetInput.value = titre;
+        });
+    });
+};
+    
+        </script>
 {% endblock %}

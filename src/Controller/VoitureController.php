@@ -43,7 +43,7 @@ class VoitureController extends AbstractController
                 // Suppose the restaurant name is in $formData['restaurantName']
         
                 // Retrieve the corresponding Restaurant entity from the database
-                $user = $this->entityManager->getRepository(User::class)->findOneBy(['id' => $formData['user_id']]);
+                $voiture = $this->entityManager->getRepository(Voiture::class)->findOneBy(['id' => $formData['voiture_id']]);
         $voiture = new Voiture();
 
         $form = $this->createForm(VoitureType::class, $voiture);

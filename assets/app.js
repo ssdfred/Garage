@@ -16,7 +16,7 @@ buttonDescription.onclick = (e) => {
 
 
 const searchForm = document.getElementById('filter-form');
-const searchResults = document.querySelector('body');
+const searchResults = document.querySelector('container');
 
 searchForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -63,3 +63,26 @@ searchForm.addEventListener('submit', (event) => {
         searchResults.innerHTML = '<p>Une erreur s\'est produite lors de la recherche,veuillez renseigner le pix minimun et le prix maximun.</p>';
     });
 });
+window.onload = () => {
+    // Récupérer l'élément du formulaire de contact
+    const formulaireContact = document.getElementById("contact-form");
+alert(formulaireContact);
+    // Écouter le clic sur le bouton "Contact" de chaque voiture
+    document.querySelectorAll(".btn-primary.contact").forEach(button => {
+        button.addEventListener("click", (event) => {
+           
+            // Récupérer le titre de la voiture
+            const titre = button.parentElement.querySelector(".voiture-item-heading .voiture-item-name").textContent;
+            alert(titre);
+            // Pré-remplir le champ "sujet" du formulaire de contact avec le titre de la voiture
+            const sujetInput = formulaireContact.getElementById("contact_sujet");
+            sujetInput.value = titre;
+            alert(sujetInput);
+            alert(formulaireContact);
+            
+          
+        });
+    });
+    return true;
+};
+

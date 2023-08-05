@@ -4,12 +4,16 @@ namespace App\Form;
 
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Component\Form\VoitureType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Entity\FormulaireContact;
+use App\Form\VoitureType as FormVoitureType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 class ContactType extends AbstractType
 {
@@ -19,32 +23,56 @@ class ContactType extends AbstractType
         $builder
 
             ->add('sujet', TextType::class, [
-                'mapped' => true,
+                //'entry_type' => FormVoitureType::class,
+                //'by_reference' => false,
+                //'allow_add' => true,
+                //'disabled' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
 
             ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom',
                 'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('email', TextType::class, [
-                'label' => 'Email',
+                'label' => 'Votre e-mail',
                 'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('message', TextareaType::class, [
                 'label' => 'Message',
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('numeroTelephone', TextType::class, [
                 'label' => 'Numéro de téléphone',
                 'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('envoyer', SubmitType::class, [
                 'label' => 'Envoyer',
-                'validation_groups' => ['Registration']
+                'validation_groups' => ['Registration'],
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ]);
     }
 
