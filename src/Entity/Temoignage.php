@@ -22,9 +22,9 @@ class Temoignage
     #[ORM\Column(type: "integer")]
     private $note;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "temoignages")]
     #[ORM\JoinColumn(nullable: false)]
-    private $user;
+    private ?User $user = null ;
 
     /**
      * @return mixed
