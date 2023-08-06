@@ -1,12 +1,29 @@
 
-<h1>Welcome {{ voiture.titre }}!</h1>
 
-<p>
-    You signed up as {{ username }} the following email:
-</p>
-<p><code>{{ email.to[0].address }}</code></p>
+    {% block body %}
+<form>
+  <div class="emailBox">
+    <label for="emailAddress">Votre adresse mail</label><br />
+    <input
+      id="emailAddress"
+      type="email"
+      size="64"
+      maxlength="64"
+      required
+      placeholder="nomutilisateur@beststartupever.com"
+      pattern=".+@"
+      title="Merci de fournir uniquement une adresse Best Startup Ever" />
+  </div>
 
-<p>
-    <a href="#">Click here to activate your account</a>
-    (this link is valid until {{ expiration_date|date('F jS') }})
-</p>
+  <div class="messageBox">
+    <label for="message">Requête</label><br />
+    <textarea
+      id="message"
+      cols="80"
+      rows="8"
+      required
+      placeholder="Mes chaussures sont trop petites."></textarea>
+  </div>
+  <input type="submit" value="Envoyer la requête" />
+</form>
+{% endblock %}

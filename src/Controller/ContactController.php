@@ -2,20 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\FormulaireContact;
 use App\Form\ContactType;
-use App\Form\FormulaireContactType;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\FormulaireContact;
 use App\Repository\HoraireRepository;
 use App\Repository\VoitureRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\Transport\Smtp\Auth\XOAuth2Authenticator;
-use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+
 
 class ContactController extends AbstractController
 {
@@ -25,9 +22,8 @@ class ContactController extends AbstractController
         HoraireRepository $horaireRepository,
         VoitureRepository $voitureRepository,
         ManagerRegistry $doctrine,
-        EsmtpTransport $transport,
-        MailerInterface $mailer
-        
+
+
     ): Response {
         $horaires = $horaireRepository->findAll();
         $voitures = $voitureRepository->findAll();
@@ -46,26 +42,11 @@ class ContactController extends AbstractController
             $em = $doctrine->getManager();
             $em->persist($formulaireContact);
             $em->flush();
-           
-           /* $email = (new Email())
-            ->from($formulaireContact->getEmail())
-            ->to('admin@example.com')
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject($formulaireContact->getSujet())
-            //->text($formulaireContact->getMessage())
-            ->html($formulaireContact->getMessage());
 
-        $mailer->send($email);
-        $transport = new EsmtpTransport(
-            host: 'oauth-smtp.domain.tld',
-            authenticators: [new XOAuth2Authenticator()]
-        );*/
+
+            // Rediriger l'utilisateur vers la page d'accueil
             return $this->redirectToRoute('accueil');
         }
-
         return $this->render('contact/contact.html.twig', [
             'horaires' => $horaires,
             'voitures' => $voitures,
