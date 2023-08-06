@@ -1,7 +1,8 @@
 //import { sub } from 'date-fns';
 import './styles/app.scss';
 import 'bootstrap';
-
+const $ = require('jquery');
+global.$ = global.jQuery = $;
 const buttonDescription = document.getElementById("buttonDescription");
 
 const description = document.getElementById("description");
