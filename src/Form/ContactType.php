@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
-
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use App\Component\Form\VoitureType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Entity\FormulaireContact;
-use App\Form\VoitureType as FormVoitureType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+//use App\Component\Form\VoitureType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+//use App\Entity\FormulaireContact;
+use App\Form\VoitureType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,11 +22,11 @@ class ContactType extends AbstractType
 
         $builder
 
-            ->add('sujet', TextType::class, [
-                //'entry_type' => FormVoitureType::class,
-                //'by_reference' => false,
-                //'allow_add' => true,
-                //'disabled' => true,
+            ->add('sujet', CollectionType::class, [
+                'entry_type' => VoitureType::class,
+                'by_reference' => 'coiture_id',
+                'allow_add' => true,
+                'disabled' => true,
                 'attr' => [
                     'class' => 'form-control',
                 ],

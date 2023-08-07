@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder ,array $options = []): void
     {
         $builder
             ->add('nom', TextType::class, [
@@ -41,7 +41,7 @@ class UserType extends AbstractType
                     new NotBlank(['message' => 'Le mot de passe ne peut pas être vide.']),
                 ],
             ])
-            ->add('roles', EntityType::class, [
+            ->add('roles', ChoiceType::class, [
                 'label' => 'Roles',
                 'required' => true,
                 'choices' => [
@@ -50,15 +50,15 @@ class UserType extends AbstractType
                     'employe' => 'ROLE_EMPLOYE',
     ],
             ]);
-        $builder->get('roles')
-            ->addModelTransformer(new CallbackTransformer(
-                function ($rolesArray) {
-                    return count($rolesArray) ? $rolesArray[0] : null;
-                },
-                function ($rolesString) {
-                    return [$rolesString];
-                }
-            ));
+       $builder->get('roles')
+           ->addModelTransformer(new CallbackTransformer(
+               function ($rolesArray) {
+                   return count($rolesArray) ? $rolesArray[0] : null;
+               },
+               function ($rolesString) {
+                   return [$rolesString];
+               }
+           ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

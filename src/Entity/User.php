@@ -37,30 +37,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(name:'voiture_id', referencedColumnName: 'id')]
     private Collection $voitures;
 
-    #[ORM\OneToMany(mappedBy: "temoignage", targetEntity: Temoignage::class)]
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: Temoignage::class)]
     #[ORM\JoinColumn(name:'temoignage_id', referencedColumnName: 'id')]
     private Collection $temoignages;
- 
+
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    private UserPasswordHasherInterface $passwordHasher;
+    private $passwordHasher;
 
-    public function __construct()
-    {
-        $this->voitures = new ArrayCollection();
-    }
-
-    public function getPasswordHasher(): UserPasswordHasherInterface
-    {
-        return $this->passwordHasher;
-    }
-
-    public function setPasswordHasher(UserPasswordHasherInterface $passwordHasher): self
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
+        $this->voitures = new ArrayCollection();
+        $this->temoignages = new ArrayCollection();
+        
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(?string $password): self
+    {
+        $this->password = $this->passwordHasher->hashPassword($this, $password);
+
         return $this;
     }
+
+ 
 
     public function getId(): ?int
     {
@@ -107,15 +113,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPasswordHasher(): UserPasswordHasherInterface
     {
-        return $this->password;
+        return $this->passwordHasher;
     }
 
-    public function setPassword(?string $password): self
+    public function setPasswordHasher(UserPasswordHasherInterface $passwordHasher): self
     {
-        $this->password = $this->passwordHasher->hashPassword($this, $password);
-
+        $this->passwordHasher = $passwordHasher;
         return $this;
     }
 
@@ -179,9 +184,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     
         return $this;
     }
-    /**
-     * @return Collection|Temoignage[]
-     */
     public function getTemoignages(): Collection
     {
         return $this->temoignages;
@@ -205,8 +207,6 @@ public function addTemoignage(Temoignage $temoignage): self
                 $temoignage->setUser(null);
             }
         }
-
         return $this;
     }
-    
 }

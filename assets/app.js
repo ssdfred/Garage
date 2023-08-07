@@ -2,7 +2,9 @@
 import './styles/app.scss';
 import 'bootstrap';
 const $ = require('jquery');
-global.$ = global.jQuery = $;
+global.$ = $;
+require('bootstrap');
+
 const buttonDescription = document.getElementById("buttonDescription");
 
 const description = document.getElementById("description");
@@ -67,23 +69,26 @@ searchForm.addEventListener('submit', (event) => {
 window.onload = () => {
     // Récupérer l'élément du formulaire de contact
     const formulaireContact = document.getElementById("contact-form");
-alert(formulaireContact);
+
     // Écouter le clic sur le bouton "Contact" de chaque voiture
-    document.querySelectorAll(".btn-primary.contact").forEach(button => {
-        button.addEventListener("click", (event) => {
-           
+    const contactButtons = document.querySelectorAll(".contact-des");
+    contactButtons.forEach(button => {
+        button.addEventListener("click", () => {
             // Récupérer le titre de la voiture
             const titre = button.parentElement.querySelector(".voiture-item-heading .voiture-item-name").textContent;
-            alert(titre);
+console.log(titre);
             // Pré-remplir le champ "sujet" du formulaire de contact avec le titre de la voiture
-            const sujetInput = formulaireContact.getElementById("contact_sujet");
+            const sujetInput = formulaireContact.querySelector("#contact_sujet");
             sujetInput.value = titre;
-            alert(sujetInput);
-            alert(formulaireContact);
-            
-          
+console.log(sujetInput.value);
+            // Afficher le titre et le formulaire pour vérification
+            alert("Titre : " + titre);
+            alert("Sujet : " + sujetInput.value);
         });
     });
-    return true;
 };
+
+
+
+
 
