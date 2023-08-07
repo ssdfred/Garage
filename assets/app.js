@@ -40,11 +40,11 @@ searchForm.addEventListener('submit', (event) => {
 
     .then(response => {
         ;
-       console.log(data);
+        console.log(data);
 
         for (const result of response) {
             const imageUrl = result.image ? `/uploads/Voiture/${result.image}`: '';
-           
+
             const voitureDiv = document.createElement('div'); // Création d'un élément div
             voitureDiv.classList.add('voiture'); // Ajout de la classe "voiture" à l'élément div
            searchResults.innerHTML = ''; // Suppression du contenu HTML body
