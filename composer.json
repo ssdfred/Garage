@@ -85,7 +85,7 @@
             "@auto-scripts"
         ],
         "compile": [
-            "php bin/console doctrine:schema:migrate --force --complete"
+            "php bin/console doctrine:schema:migrate"
         ]
     },
     "conflict": {
