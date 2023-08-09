@@ -44,9 +44,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(name:'temoignage_id', referencedColumnName: 'id')]
     private Collection $temoignages;
 
-    #[ORM\OneToMany(mappedBy: "user", targetEntity: FormulaireContact::class)]
-    #[ORM\JoinColumn(name:'formulaireContact_id', referencedColumnName: 'id')]
-    private Collection $formulaireContacts;
     
     #[ORM\Column(type: 'json')]
     private array $roles = [];
