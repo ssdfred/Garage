@@ -4,15 +4,13 @@ namespace App\Form;
 
 use App\Entity\FormulaireContact;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-//use App\Component\Form\VoitureType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-//use App\Entity\FormulaireContact;
-use App\Form\VoitureType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormTypeInterface;
 
 
 class ContactType extends AbstractType
@@ -22,15 +20,23 @@ class ContactType extends AbstractType
 
         $builder
 
-            ->add('sujet', CollectionType::class, [
-                'entry_type' => VoitureType::class,
-                'by_reference' => 'coiture_id',
-                'allow_add' => true,
-                'disabled' => true,
+        //    ->add('sujet', CollectionType::class, array(
+        //        'entry_type' => VoitureType::class,
+        //        'by_reference' => 'voiture',
+        //        'allow_add' => true,
+        //        'disabled' => false,
+        //        'prototype' => true,
+        //        'allow_delete' => true,
+        //        'label' => false,
+//
+        //    ))
+
+            ->add('sujet', TextType::class, [
+                'label' => 'Sujet',
+                'required' => true,
                 'attr' => [
                     'class' => 'form-control',
                 ],
-
             ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
@@ -80,6 +86,7 @@ class ContactType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => FormulaireContact::class,
+            'voiture' => 'voiture.nom',
 
         ]);
     }

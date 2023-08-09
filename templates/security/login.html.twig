@@ -36,6 +36,9 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <input type="submit" value="Connexion" class="btn btn-success mt-2">
     </form>
+    <pre>
+        {{ dump(form) }}
+    </pre>
 
     <a href="/user/new" class="btn btn-link">Vous n'avez pas encore de compte ?</a>
 {% endblock %}

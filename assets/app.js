@@ -19,7 +19,7 @@ buttonDescription.onclick = (e) => {
 
 
 const searchForm = document.getElementById('filter-form');
-const searchResults = document.querySelector('container');
+const searchResults = document.getElementById('results');
 
 searchForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -28,7 +28,7 @@ searchForm.addEventListener('submit', (event) => {
         prix_min: formData.get('prix_min'),
         prix_max: formData.get('prix_max'),
     };
-    console.log(searchForm);
+    //console.log(searchForm);
     fetch('/search', {
         method: 'POST',
         headers: {
@@ -40,14 +40,14 @@ searchForm.addEventListener('submit', (event) => {
 
     .then(response => {
         ;
-        console.log(data);
+        //console.log(data);
 
         for (const result of response) {
             const imageUrl = result.image ? `/uploads/Voiture/${result.image}`: '';
 
             const voitureDiv = document.createElement('div'); // Création d'un élément div
             voitureDiv.classList.add('voiture'); // Ajout de la classe "voiture" à l'élément div
-           searchResults.innerHTML = ''; // Suppression du contenu HTML body
+            searchResults.innerHTML = ''; // Suppression du contenu HTML body
             voitureDiv.innerHTML= `
                     
                     <h3>${result.titre}</h3>
@@ -66,27 +66,27 @@ searchForm.addEventListener('submit', (event) => {
         searchResults.innerHTML = '<p>Une erreur s\'est produite lors de la recherche,veuillez renseigner le pix minimun et le prix maximun.</p>';
     });
 });
-window.onload = () => {
-    // Récupérer l'élément du formulaire de contact
-    const formulaireContact = document.getElementById("contact-form");
-
-    // Écouter le clic sur le bouton "Contact" de chaque voiture
-    const contactButtons = document.querySelectorAll(".contact-des");
-    contactButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            // Récupérer le titre de la voiture
-            const titre = button.parentElement.querySelector(".voiture-item-heading .voiture-item-name").textContent;
-console.log(titre);
-            // Pré-remplir le champ "sujet" du formulaire de contact avec le titre de la voiture
-            const sujetInput = formulaireContact.querySelector("#contact_sujet");
-            sujetInput.value = titre;
-console.log(sujetInput.value);
-            // Afficher le titre et le formulaire pour vérification
-            alert("Titre : " + titre);
-            alert("Sujet : " + sujetInput.value);
-        });
-    });
-};
+//window.onload = () => {
+//    // Récupérer l'élément du formulaire de contact
+//    const formulaireContact = document.getElementById("contact-form");
+//
+//    // Écouter le clic sur le bouton "Contact" de chaque voiture
+//    const contactButtons = document.querySelectorAll(".contact-des");
+//    contactButtons.forEach(button => {
+//        button.addEventListener("click", () => {
+//            // Récupérer le titre de la voiture
+//            const titre = button.parentElement.querySelector(".voiture-item-heading .voiture-item-name").textContent;
+//console.log(titre);
+//            // Pré-remplir le champ "sujet" du formulaire de contact avec le titre de la voiture
+//            const sujetInput = formulaireContact.querySelector("#contact_sujet");
+//            sujetInput.value = titre;
+//console.log(sujetInput.value);
+//            // Afficher le titre et le formulaire pour vérification
+//            alert("Titre : " + titre);
+//            alert("Sujet : " + sujetInput.value);
+//        });
+//    });
+//};
 
 
 

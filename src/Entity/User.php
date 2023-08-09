@@ -36,6 +36,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: "user", targetEntity: Voiture::class)]
     #[ORM\JoinColumn(name:'voiture_id', referencedColumnName: 'id')]
     private Collection $voitures;
+    
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: FormulaireContact::class)]
+    private Collection $formulaireContacts;
 
     #[ORM\OneToMany(mappedBy: "user", targetEntity: Temoignage::class)]
     #[ORM\JoinColumn(name:'temoignage_id', referencedColumnName: 'id')]
@@ -51,6 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->passwordHasher = $passwordHasher;
         $this->voitures = new ArrayCollection();
         $this->temoignages = new ArrayCollection();
+        $this->formulaireContacts = new ArrayCollection();
         
     }
 
@@ -207,6 +211,26 @@ public function addTemoignage(Temoignage $temoignage): self
                 $temoignage->setUser(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * Get the value of formulaireContacts
+     */ 
+    public function getFormulaireContacts()
+    {
+        return $this->formulaireContacts;
+    }
+
+    /**
+     * Set the value of formulaireContacts
+     *
+     * @return  self
+     */ 
+    public function setFormulaireContacts($formulaireContacts)
+    {
+        $this->formulaireContacts = $formulaireContacts;
+
         return $this;
     }
 }
