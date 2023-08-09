@@ -5,7 +5,8 @@ namespace App\Repository;
 use App\Entity\Voiture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\BrowserKit\Response;
+
+
 
 /**
  * @extends ServiceEntityRepository<Voiture>
@@ -67,20 +68,24 @@ class VoitureRepository extends ServiceEntityRepository
 
     public function findAllByPrixRange(float $prixMin, float $prixMax): array
     {
-        // Récupérer toutes les voitures qui se trouvent dans la plage de prix donnée
-        $results = $this->createQueryBuilder('v')
-            ->where('v.prix >= :prixMin')
-            ->andWhere('v.prix <= :prixMax')
-            ->setParameter('prixMin', $prixMin)
-            ->setParameter('prixMax', $prixMax)
-            ->getQuery()
-            ->getResult();
-            dump($results); // Vérifier les résultats de la requête
-        return $results;
-       
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT v
+            FROM App\Entity\Voiture v
+            WHERE v.prix >= :prixMin
+            AND v.prix <= :prixMax
+            ORDER BY v.prix ASC'
+        )->setParameters(['prixMin' => $prixMin, 'prixMax' => $prixMax]);
+        
+        // Alternatively, you can set the parameters individually:
+        // $query->setParameter('prixMin', $prixMin);
+        // $query->setParameter('prixMax', $prixMax);
+        
+        dd($query);
+        return $query->getResult();
     }
 
- 
+    
 
     public function findMaxPrixByPrixRange(float $prixMin, float $prixMax): array
     {
@@ -97,6 +102,17 @@ class VoitureRepository extends ServiceEntityRepository
     dump($results); // Vérifier les résultats de la requête
 
     return $results;
+}
+public function findByPrixRange(float $prixMin, float $prixMax): array
+{
+    return $this->createQueryBuilder('v')
+        ->where('v.prix >= :prixMin')
+        ->andWhere('v.prix <= :prixMax')
+        ->setParameter('prixMin', $prixMin)
+        ->setParameter('prixMax', $prixMax)
+        ->orderBy('v.prix', 'ASC')
+        ->getQuery()
+        ->getResult();
 }
 
 }

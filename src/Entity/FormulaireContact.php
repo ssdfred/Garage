@@ -36,10 +36,13 @@ class FormulaireContact
     #[ORM\JoinColumn(nullable: true)]
     private $voiture;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "formulaireContacts")]
+    private $user;
+    
     #[ORM\Column(type: "text")]
     private $message;
 
-    // Getters et setters pour les propriétés existantes...
+    
 
     public function getId(): ?int
     {
@@ -133,6 +136,26 @@ class FormulaireContact
     public function setSujet(string $Sujet): ?self
     {
         $this->Sujet = $Sujet;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of user
+     */ 
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set the value of user
+     *
+     * @return  self
+     */ 
+    public function setUser($user)
+    {
+        $this->user = $user;
 
         return $this;
     }

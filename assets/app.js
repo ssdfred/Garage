@@ -17,9 +17,9 @@ buttonDescription.onclick = (e) => {
     }
 }
 
-
+// fonxtion pour le bouton de recherche
 const searchForm = document.getElementById('filter-form');
-const searchResults = document.querySelector('container');
+const searchResults = document.getElementById('results');
 
 searchForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -40,14 +40,14 @@ searchForm.addEventListener('submit', (event) => {
 
     .then(response => {
         ;
-        console.log(data);
+       console.log(response);
 
         for (const result of response) {
             const imageUrl = result.image ? `/uploads/Voiture/${result.image}`: '';
 
             const voitureDiv = document.createElement('div'); // Création d'un élément div
             voitureDiv.classList.add('voiture'); // Ajout de la classe "voiture" à l'élément div
-           searchResults.innerHTML = ''; // Suppression du contenu HTML body
+            searchResults.innerHTML = ''; // Suppression du contenu HTML body
             voitureDiv.innerHTML= `
                     
                     <h3>${result.titre}</h3>
@@ -58,7 +58,6 @@ searchForm.addEventListener('submit', (event) => {
                     <a class="btn btn-primary" href="/" >Retour</a>               
             `;
             searchResults.appendChild(voitureDiv); // Ajout du div dans la div parente
-
         }
     })
     .catch(error => {
@@ -86,7 +85,33 @@ console.log(sujetInput.value);
             alert("Sujet : " + sujetInput.value);
         });
     });
-};
+
+/*    $(document).ready(function() {
+        $('#form-recherche').submit(function(event) {
+            event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+
+            // Récupérer les paramètres de recherche
+            var prixMin = $('#prix_min').val();
+            var prixMax = $('#prix_max').val();
+
+            // Envoyer la requête AJAX
+            $.ajax({
+                url: 'search_ajax',
+                type: 'POST',
+                data: {
+                    prix_min: prixMin,
+                    prix_max: prixMax
+                },
+                success: function(data) {
+                    // Afficher les résultats de recherche
+                    $('#resultats-recherche').html(data);
+                }
+            });
+        });
+    });
+*/
+}
+ 
 
 
 
