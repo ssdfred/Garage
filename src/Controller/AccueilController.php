@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\HoraireRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\VoitureRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
