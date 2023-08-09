@@ -17,7 +17,7 @@ buttonDescription.onclick = (e) => {
     }
 }
 
-
+// fonxtion pour le bouton de recherche
 const searchForm = document.getElementById('filter-form');
 const searchResults = document.getElementById('results');
 
@@ -40,7 +40,7 @@ searchForm.addEventListener('submit', (event) => {
 
     .then(response => {
         ;
-        //console.log(data);
+       console.log(response);
 
         for (const result of response) {
             const imageUrl = result.image ? `/uploads/Voiture/${result.image}`: '';
@@ -58,7 +58,6 @@ searchForm.addEventListener('submit', (event) => {
                     <a class="btn btn-primary" href="/" >Retour</a>               
             `;
             searchResults.appendChild(voitureDiv); // Ajout du div dans la div parente
-
         }
     })
     .catch(error => {
@@ -87,6 +86,53 @@ searchForm.addEventListener('submit', (event) => {
 //        });
 //    });
 //};
+window.onload = () => {
+    // Récupérer l'élément du formulaire de contact
+    const formulaireContact = document.getElementById("contact-form");
+
+    // Écouter le clic sur le bouton "Contact" de chaque voiture
+    const contactButtons = document.querySelectorAll(".contact-des");
+    contactButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            // Récupérer le titre de la voiture
+            const titre = button.parentElement.querySelector(".voiture-item-heading .voiture-item-name").textContent;
+console.log(titre);
+            // Pré-remplir le champ "sujet" du formulaire de contact avec le titre de la voiture
+            const sujetInput = formulaireContact.querySelector("#contact_sujet");
+            sujetInput.value = titre;
+console.log(sujetInput.value);
+            // Afficher le titre et le formulaire pour vérification
+            alert("Titre : " + titre);
+            alert("Sujet : " + sujetInput.value);
+        });
+    });
+
+/*    $(document).ready(function() {
+        $('#form-recherche').submit(function(event) {
+            event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+
+            // Récupérer les paramètres de recherche
+            var prixMin = $('#prix_min').val();
+            var prixMax = $('#prix_max').val();
+
+            // Envoyer la requête AJAX
+            $.ajax({
+                url: 'search_ajax',
+                type: 'POST',
+                data: {
+                    prix_min: prixMin,
+                    prix_max: prixMax
+                },
+                success: function(data) {
+                    // Afficher les résultats de recherche
+                    $('#resultats-recherche').html(data);
+                }
+            });
+        });
+    });
+*/
+}
+ 
 
 
 

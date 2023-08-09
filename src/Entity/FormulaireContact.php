@@ -38,11 +38,11 @@ class FormulaireContact
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "formulaireContacts")]
     private $user;
-
+    
     #[ORM\Column(type: "text")]
     private $message;
 
-    // Getters et setters pour les propriétés existantes...
+    
 
     public function getId(): ?int
     {

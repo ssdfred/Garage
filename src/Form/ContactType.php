@@ -20,20 +20,11 @@ class ContactType extends AbstractType
 
         $builder
 
-        //    ->add('sujet', CollectionType::class, array(
-        //        'entry_type' => VoitureType::class,
-        //        'by_reference' => 'voiture',
-        //        'allow_add' => true,
-        //        'disabled' => false,
-        //        'prototype' => true,
-        //        'allow_delete' => true,
-        //        'label' => false,
-//
-        //    ))
-
-            ->add('sujet', TextType::class, [
-                'label' => 'Sujet',
-                'required' => true,
+            ->add('sujet', CollectionType::class, [
+                'entry_type' => VoitureType::class,
+                'by_reference' => 'voiture_id',
+                'allow_add' => true,
+                'disabled' => true,
                 'attr' => [
                     'class' => 'form-control',
                 ],

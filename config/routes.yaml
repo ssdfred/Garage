@@ -3,3 +3,7 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+search:
+    path: /search
+    methods: [POST]
+    controller: App\Controller\AccueilController::search

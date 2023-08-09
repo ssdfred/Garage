@@ -51,7 +51,19 @@
 
 
 			{% endfor %}
+{% if app.request.method == 'POST' and voitures is not empty %}
+    <h2>Résultats de recherche</h2>
+    <ul>
+        {% for voiture in voitures %}
+            <li>{{ voiture.titre }} - {{ voiture.prix }}€</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun résultat trouvé.</p>
+{% endif %}
 		</div>
 		<div id="results"></div>
 		</div>
-	{% endblock %}
+	
+
+{% endblock %}

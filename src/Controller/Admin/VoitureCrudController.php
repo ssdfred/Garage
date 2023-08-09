@@ -65,21 +65,6 @@ class VoitureCrudController extends AbstractCrudController
         ];
     }
 
-    
-private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
-
-
-
-
-
-   
-
     public function duplicateMenu(AdminContext $context, EntityManagerInterface $em, AdminUrlGenerator $adminUrlGenerator): RedirectResponse
     {
         $voiture = $context->getEntity()->getInstance();
