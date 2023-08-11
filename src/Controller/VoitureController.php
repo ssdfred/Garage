@@ -16,7 +16,7 @@ class VoitureController extends AbstractController
 {
     private VoitureRepository $voitureRepository;
     private EntityManagerInterface $entityManager;
-   
+
 
     public function __construct(VoitureRepository $voitureRepository, EntityManagerInterface $entityManager)
     {
@@ -37,13 +37,13 @@ class VoitureController extends AbstractController
     #[Route('/voiture/new', name: 'voiture_new')]
     public function create(Request $request): Response
     {
-                // Retrieve the form data
-                $formData = $request->request->all();
-        
-                // Suppose the restaurant name is in $formData['restaurantName']
-        
-                // Retrieve the corresponding Restaurant entity from the database
-                $voiture = $this->entityManager->getRepository(Voiture::class)->find(['voiture' => $formData['voiture.id']]);
+        // Retrieve the form data
+        $formData = $request->request->all();
+
+        // Suppose the restaurant name is in $formData['restaurantName']
+
+        // Retrieve the corresponding Restaurant entity from the database
+        $voiture = $this->entityManager->getRepository(Voiture::class)->find(['voiture' => $formData['voiture.id']]);
         $voiture = new Voiture();
 
         $form = $this->createForm(VoitureType::class, $voiture);
@@ -97,9 +97,9 @@ class VoitureController extends AbstractController
 
         return $this->redirectToRoute('voitures');
     }
-    
-     #[Route("/voiture/{id}/contact", name:"voiture_contact")]
-     
+
+    #[Route("/voiture/{id}/contact", name: "voiture_contact")]
+
     public function contact(Voiture $voiture, Request $request): Response
     {
         // Récupérer les informations spécifiques de la voiture

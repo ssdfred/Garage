@@ -5,19 +5,24 @@ const $ = require('jquery');
 global.$ = $;
 require('bootstrap');
 
-const buttonDescription = document.getElementById("buttonDescription");
+// Fonction pour le bouton "Voir la description"
+// selecteur pour le bouton
+const buttonDescriptions = document.querySelectorAll(".buttonDescription");
 
-const description = document.getElementById("description");
-buttonDescription.onclick = (e) => {
-    description.classList.toggle("visually-hidden");
-    if (buttonDescription.innerText === "Voir la description") {
-        buttonDescription.innerText = "Cacher la description";
-    } else {
-        buttonDescription.innerText = "Voir la description";
-    }
-}
-
-// fonxtion pour le bouton de recherche
+// boucle pour chaque bouton
+[...buttonDescriptions].forEach(buttonDescription => {
+    const description = buttonDescription.previousElementSibling;
+    //ecouteur d'evenement
+    buttonDescription.addEventListener("click", (e) => {
+        description.classList.toggle("visually-hidden");
+        if (description.classList.contains("visually-hidden")) {
+            buttonDescription.innerText = "Voir la description";
+        } else {
+            buttonDescription.innerText = "Cacher la description";
+        }
+    });
+});
+// fonction pour le bouton de recherche
 const searchForm = document.getElementById('filter-form');
 const searchResults = document.getElementById('results');
 
@@ -36,105 +41,101 @@ searchForm.addEventListener('submit', (event) => {
         },
         body: JSON.stringify(data),
     })
-    .then(response => response.json())
+        .then(response => response.json())
 
-    .then(response => {
-        ;
-       console.log(response);
+        .then(response => {
+            ;
+            console.log(response);
+            searchResults.innerHTML = ''; // Efface le contenu précédent avant d'ajouter les nouveaux résultats
+            let rowDiv = document.createElement('div'); // Création d'un élément div pour chaque ligne
+            rowDiv.classList.add('row'); // Ajout de la classe "row"
+            
+            let count = 0; // initialisation du compteur
+            
+            for (const result of response) {
+                const imageUrl = result.image ? `/uploads/Voiture/${result.image}` : '';
 
-        for (const result of response) {
-            const imageUrl = result.image ? `/uploads/Voiture/${result.image}`: '';
+                const voitureDiv = document.createElement('div'); // Création d'un élément div
+                voitureDiv.classList.add('col-md-4', 'voiture-item'); // Ajout des classes "col-md-4" et "voiture-item"
 
-            const voitureDiv = document.createElement('div'); // Création d'un élément div
-            voitureDiv.classList.add('voiture'); // Ajout de la classe "voiture" à l'élément div
-            searchResults.innerHTML = ''; // Suppression du contenu HTML body
-            voitureDiv.innerHTML= `
-                    
-                    <h3>${result.titre}</h3>
-                    <p>Année: ${result.anneeMiseCirculation}</p>
-                    ${result.image ? `<img src="${imageUrl}" alt="${result.titre}" />` : ''}
-                    <p>Description: ${result.description}</p>
-                    <p>Prix: ${result.prix}€</p> 
-                    <a class="btn btn-primary" href="/" >Retour</a>               
-            `;
-            searchResults.appendChild(voitureDiv); // Ajout du div dans la div parente
-        }
-    })
-    .catch(error => {
-        console.error('Erreur lors de la requête :', error.message);
-        searchResults.innerHTML = '<p>Une erreur s\'est produite lors de la recherche,veuillez renseigner le pix minimun et le prix maximun.</p>';
-    });
+                // Construction de la structure HTML pour chaque résultat
+                voitureDiv.innerHTML = `
+                    <img class="voiture-item-image" src="${imageUrl}" alt="${result.image}">
+                    <h3 class="voiture-item-heading">
+                        <span class="voiture-item-name">${result.titre}</span>
+                    </h3>
+                    <span class="voiture-item-annee">${result.anneeMiseCirculation}</span>
+                    <span class="voiture-item-price">${result.prix}€</span>
+                    <p class="voiture-description">${result.description}</p>
+                    <a href="/contact" class="btn-primary contact">Contact</a>
+                    <a href="/" class="btn-primary retour">Retour</a>
+                `;
+
+                rowDiv.appendChild(voitureDiv); // Ajout du div dans la ligne
+                count++; // Augmentation du compteur
+
+                // Lorsque le compteur atteint 3 éléments, ajouter la ligne à la div "results" et réinitialiser le compteur
+                if (count === 3) {
+                    searchResults.appendChild(rowDiv);
+                    rowDiv = document.createElement('div'); // Créer une nouvelle ligne
+                    rowDiv.classList.add('row'); // Ajout de la classe "row" à la nouvelle ligne
+                    count = 0; // Réinitialiser le compteur
+                }
+            }
+            
+            // Si la dernière ligne n'est pas pleine (moins de 3 éléments), ajouter la ligne restante
+            if (count > 0) {
+                searchResults.appendChild(rowDiv);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de la requête :', error.message);
+            searchResults.innerHTML = '<p>Une erreur s\'est produite lors de la recherche,veuillez renseigner le prix minimum et le prix maximum.</p>';
+        });
 });
+// fonction pour recuperer les données du formulaire de contact
+
 //window.onload = () => {
-//    // Récupérer l'élément du formulaire de contact
-//    const formulaireContact = document.getElementById("contact-form");
+//    // Récupére l'élément du formulaire de contact
+//    const formulaireContact = document.querySelectorAll("contact-form");
 //
-//    // Écouter le clic sur le bouton "Contact" de chaque voiture
-//    const contactButtons = document.querySelectorAll(".contact-des");
+//    // Écoute le clic sur le bouton "Contact" de chaque voiture
+//    const contactButtons = document.querySelectorAll("#contact-des");
 //    contactButtons.forEach(button => {
 //        button.addEventListener("click", () => {
-//            // Récupérer le titre de la voiture
+//            // Récupére le titre de la voiture
 //            const titre = button.parentElement.querySelector(".voiture-item-heading .voiture-item-name").textContent;
-//console.log(titre);
+//            console.log(titre);
 //            // Pré-remplir le champ "sujet" du formulaire de contact avec le titre de la voiture
-//            const sujetInput = formulaireContact.querySelector("#contact_sujet");
+//            const sujetInput = formulaireContact.querySelectorAll("#contact_sujet");
 //            sujetInput.value = titre;
-//console.log(sujetInput.value);
-//            // Afficher le titre et le formulaire pour vérification
+//            console.log(sujetInput.value);
+//            // Affiche le titre et le formulaire pour vérification
 //            alert("Titre : " + titre);
 //            alert("Sujet : " + sujetInput.value);
 //        });
 //    });
-//};
-window.onload = () => {
-    // Récupérer l'élément du formulaire de contact
-    const formulaireContact = document.getElementById("contact-form");
+//
+//}
+document.addEventListener('DOMContentLoaded', () => {
+    // Récupère l'élément du formulaire de contact
+    const formulaireContact = document.querySelector("#contact-form");
 
-    // Écouter le clic sur le bouton "Contact" de chaque voiture
-    const contactButtons = document.querySelectorAll(".contact-des");
+    // Écoute le clic sur le bouton "Contact" de chaque voiture
+    const contactButtons = document.querySelectorAll(".contact");
+    console.log(contactButtons);
     contactButtons.forEach(button => {
         button.addEventListener("click", () => {
-            // Récupérer le titre de la voiture
+            // Récupère le titre de la voiture
             const titre = button.parentElement.querySelector(".voiture-item-heading .voiture-item-name").textContent;
-console.log(titre);
-            // Pré-remplir le champ "sujet" du formulaire de contact avec le titre de la voiture
-            const sujetInput = formulaireContact.querySelector("#contact_sujet");
+
+            // Pré-remplit le champ "sujet" du formulaire de contact avec le titre de la voiture
+            const sujetInput = formulaireContact.querySelector("#contact_sujet"); // Utilise "#contact_sujet"
             sujetInput.value = titre;
-console.log(sujetInput.value);
-            // Afficher le titre et le formulaire pour vérification
+
+            // Affiche le titre et le formulaire pour vérification
             alert("Titre : " + titre);
             alert("Sujet : " + sujetInput.value);
         });
     });
-
-/*    $(document).ready(function() {
-        $('#form-recherche').submit(function(event) {
-            event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
-
-            // Récupérer les paramètres de recherche
-            var prixMin = $('#prix_min').val();
-            var prixMax = $('#prix_max').val();
-
-            // Envoyer la requête AJAX
-            $.ajax({
-                url: 'search_ajax',
-                type: 'POST',
-                data: {
-                    prix_min: prixMin,
-                    prix_max: prixMax
-                },
-                success: function(data) {
-                    // Afficher les résultats de recherche
-                    $('#resultats-recherche').html(data);
-                }
-            });
-        });
-    });
-*/
-}
- 
-
-
-
-
-
+});

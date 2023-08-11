@@ -30,9 +30,9 @@ class ContactController extends AbstractController
     ): Response {
         $contact = new FormulaireContact();
     if ($this->getUser() ) {
-            $contact->setNom($this->getUser()->getnom())
-            ->setEmail($this->getUser()->getemail())
-            ->setPrenom($this->getUser()->getprenom());
+            $contact->setNom($this->getUser()->getnom());
+           // ->setEmail($this->getUser()->getemail())
+           // ->setPrenom($this->getUser()->getprenom());
            // ->setVoiture($this->getUser()->getvoitures())
            
     } 
@@ -67,7 +67,7 @@ class ContactController extends AbstractController
             // Rediriger l'utilisateur vers la page d'accueil
             return $this->redirectToRoute('accueil');
         }
-       
+
         return $this->render('contact/contact.html.twig', [
             'contact' => $contact,
             'horaires' => $horaires,

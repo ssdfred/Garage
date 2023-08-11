@@ -12,16 +12,16 @@ class FormulaireContactType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-          // ->add ('sujet' , CollectionType::class, array(
-          //     'entry_type' => VoitureType::class,
-          //     'by_reference' => 'voiture.nom',
-          //     'allow_add' => true,
-          //     'disabled' => false,
-          //     'prototype' => true,
-          //     'allow_delete' => true,
-           //     'label' => false,
+           ->add ('sujet' , CollectionType::class, array(
+               'entry_type' => VoitureType::class,
+              // 'by_reference' => 'voiture.nom',
+              // 'allow_add' => true,
+              // 'disabled' => false,
+              // 'prototype' => true,
+              // 'allow_delete' => true,
+               'label' => false,
 
-           // ))
+            ))
            ->add('sujet')
             ->add('nom')
             ->add('prenom')

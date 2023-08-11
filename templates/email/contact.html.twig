@@ -11,16 +11,12 @@
     </head>
     <body>
   <h1>Demande de 
-  {{ contact.nom }}</h1>
-<p> Email : {{ contact.email }}</p>
+  {{ contact.nom }} {{ contact.prenom }}</h1>
 
-        <div class="form-group">
-            <label for="message">Message :</label>
-            <textarea id="message" name="message" class="form-control"></textarea>
-        </div>
-            <div class="form-group">
-                <label for="sujet">information du vehicule</label>
-                <input  id="sujet" name="sujet" class="form-control">
-            </div>
+  <h2> {{ contact.voiture }}</h2>
+<p> Email : {{ contact.email }}</p>
+<div> {{ contact.sujet }}</div>
+<div> {{ contact.message }}</div>
+
     </body>
 </html>

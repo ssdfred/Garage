@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Voiture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Symfony\Component\BrowserKit\Response;
 
 
 /**
@@ -66,29 +66,28 @@ class VoitureRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllByPrixRange(float $prixMin, float $prixMax): array
+    public function findAllByPrixRange($prixMin, $prixMax): array
     {
         $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery(
-            'SELECT v
-            FROM App\Entity\Voiture v
-            WHERE v.prix >= :prixMin
-            AND v.prix <= :prixMax
-            ORDER BY v.prix ASC'
-        )->setParameters(['prixMin' => $prixMin, 'prixMax' => $prixMax]);
-        
-        // Alternatively, you can set the parameters individually:
-        // $query->setParameter('prixMin', $prixMin);
-        // $query->setParameter('prixMax', $prixMax);
-        
-        dd($query);
-        return $query->getResult();
+        $voitureRepository = $entityManager->getRepository(Voiture::class);
+    
+        $query = $voitureRepository->createQueryBuilder('v')
+            ->where('v.prix >= :prixMin')
+            ->andWhere('v.prix <= :prixMax')
+            ->setParameter('prixMin', $prixMin)
+            ->setParameter('prixMax', $prixMax)
+            ->getQuery();
+    
+        $result = $query->getResult();
+       // dump($result); // Vérifier les résultats de la requête
+        return $result;
     }
 
     
 
     public function findMaxPrixByPrixRange(float $prixMin, float $prixMax): array
     {
+      
         // Récupérer toutes les voitures qui se trouvent dans la plage de prix donnée
         dump($prixMin, $prixMax); // Vérifier les valeurs des paramètres
         $results = $this->createQueryBuilder('v')

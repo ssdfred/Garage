@@ -3,10 +3,13 @@
 namespace App\Form;
 
 use App\Entity\FormulaireContact;
+use App\Entity\Voiture;
+use Doctrine\ORM\QueryBuilder;
+use App\Repository\VoitureRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,15 +23,23 @@ class ContactType extends AbstractType
 
         $builder
 
-            ->add('sujet', CollectionType::class, [
-                'entry_type' => VoitureType::class,
-                'by_reference' => 'voiture_id',
-                'allow_add' => true,
-                'disabled' => true,
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
+
+           ->add('sujet', TextType::class, [
+            'label' => 'sujet',
+            'required' => true,
+            'attr' => [
+                'class' => 'form-control',
+            ],
+        ])
+        ->add('voiture', EntityType::class, [
+            'class' => Voiture::class,
+            'query_builder' => function (VoitureRepository $er): QueryBuilder {
+                return $er->createQueryBuilder('u')
+                    ->orderBy('u.titre', 'ASC');
+            },
+            'choice_label' => 'titre',
+
+        ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
@@ -77,7 +88,7 @@ class ContactType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => FormulaireContact::class,
-            'voiture' => 'voiture.nom',
+            
 
         ]);
     }
