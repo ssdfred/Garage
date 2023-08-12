@@ -83,7 +83,7 @@
             "@auto-scripts"
         ],
         "compile": [
-            "php bin/console doctrine:migrations:migrate --all-or-nothing"            
+            "php bin/console doctrine:migrations:migrate --allow-no-migration --no-interaction"            
         ]
     },
     "conflict": {
