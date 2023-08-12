@@ -5,7 +5,7 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async: 'sendgrid+smtp://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@default'
+            async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
 
