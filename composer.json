@@ -13,6 +13,7 @@
         "doctrine/orm": "^2.15",
         "easycorp/easyadmin-bundle": "^4.7",
         "phpdocumentor/reflection-docblock": "^5.3",
+        "symfony/apache-pack": "^1.0",
         "symfony/asset": "6.3.*",
         "symfony/console": "6.3.*",
         "symfony/doctrine-messenger": "6.3.*",
@@ -83,7 +84,7 @@
             "@auto-scripts"
         ],
         "compile": [
-            "php bin/console doctrine:schema:update --force"            
+            "php bin/console doctrine:migrations:migrate"            
         ]
     },
     "conflict": {
