@@ -67,8 +67,8 @@ searchForm.addEventListener('submit', (event) => {
                     <span class="voiture-item-annee">${result.anneeMiseCirculation}</span>
                     <span class="voiture-item-price">${result.prix}€</span>
                     <p class="voiture-description">${result.description}</p>
-                    <a href="/contact" class="btn-primary contact">Contact</a>
-                    <a href="/" class="btn-primary retour">Retour</a>
+                    <a href="/contact" class="btn btn-primary contact">Contact</a>
+                    <a href="/" class="btn btn-primary retour">Retour</a>
                 `;
 
                 rowDiv.appendChild(voitureDiv); // Ajout du div dans la ligne
