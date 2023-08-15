@@ -11,7 +11,7 @@ framework:
 
         routing:
             # Route your messages to the transports
-             'App\Controller\AccueilController': async
+            'App\Controller\AccueilController': async
 
 # when@test:
 #    framework:
