@@ -1,0 +1,58 @@
+# fly.toml app configuration file generated for throbbing-leaf-1626 on 2023-08-15T09:50:18+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "throbbing-leaf-1626"
+primary_region = "cdg"
+console_command = "php /var/www/html/artisan tinker"
+
+[build]
+  [build.args]
+    NODE_VERSION = "18"
+    PHP_VERSION = "8.2"
+
+[processes]
+  app = ""
+  worker = "php bin/console messenger:consume async -vvv"
+
+[deploy]
+  release_command = "php bin/console doctrine:migrations:migrate"
+
+[env]
+  APP_ENV = "prod"
+  APP_DEBUG = "0"
+  LOG_LEVEL = "info"
+  MESSENGER_TRANSPORT_DSN = 'doctrine://default?auto_setup=0'
+  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  APP_RUNTIME = '\App\FlySymfonyRuntime'
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[[services]]
+  processes = ['app']
+  http_checks = []
+  internal_port = 8080
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"

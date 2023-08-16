@@ -1,19 +1,30 @@
 @charset "UTF-8";
+@import'variables.scss';
+
 /* Pour personnaliser la taille de la police dans les en-têtes h1 et h2 */
 h1, h2 {
   font-size: 24px;
 }
 
+.recherche {
+  margin: 10px 0;
+}
 /* Pour personnaliser le fond et la couleur du texte dans le footer */
-.footer-inline {
+/*.footer-inline {
   bottom: 0;
   left: 0;
   width: 100%;
   margin: 8px;
   background-color: #f8f9fa;
   color: #333;
+}*/
+ul.list-inline{
+  text-align: center;
 }
-
+li.list-inline-item>a{
+  text-decoration: none;
+  color: #333;
+}
 /* Styles pour les éléments de la voiture */
 .voiture-item {
   padding: 10px;

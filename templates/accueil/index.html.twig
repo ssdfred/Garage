@@ -1,69 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Garage V.Parrot
-{% endblock %}
+{% block title %}Garage V.Parrot{% endblock %}
 
 {% block body %}
+	<div class="recherche" id="navbarSupportedContent">
+									<!-- Champs de recherche -->
+							<form id="filter-form">
+										<label for="prix_min">Prix min :</label>
+										<input type="number" id="prix_min" name="prix_min" class="form-control">
+									</div>
+									<div class="form-group">
+										<label for="prix_max">Prix max :</label>
+										<input type="number" id="prix_max" name="prix_max" class="form-control">
+									</div>
 
-	<div class="container" id="results">
-		<h2>Véhicules d'occasion</h2>
-		<div class="row">
-			{% for voiture in voitures %}
-				<div class="col-md-4 voiture-item">
-					{% if voiture.id %}
-						<h3 class="visually-hidden" id="IDvoiture">
-							{{ voiture.id }}
-						</h3>
-					{% endif %}
-					{% if voiture.image %}
-						<img class="voiture-item-image" src="{{ asset('uploads/Voiture/' ~ voiture.image) }}" alt="">
-					{% endif %}
+									<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
 
-					{% if voiture.titre %}
-						<h3 class="voiture-item-heading" id="sujet">
-							<span class="voiture-item-name" id="sujet-titre">{{ voiture.titre }}</span>
-						</h3>
-
-					{% endif %}
-					{% if voiture.anneeMiseCirculation %}
-						<span class="voiture-item-annee" id="sujet-annee">{{ voiture.anneeMiseCirculation|date('d/m/Y') }}</span>
-					{% endif %}
-					{% if voiture.prix %}
-						<span class="voiture-item-price">{{ voiture.prix / 100 }}€</span>
-					{% endif %}
-
-
-					{% if voiture.description %}
-						<p class="visually-hidden" id="description">
-							{{ voiture.description }}
-						</p>
-					{% endif %}
-					<button class="btn-primary buttonDescription" id="buttonDescription">Voir la description</button>
-
-
-					<a href="/contact" class="btn btn-primary contact" id="contact-des" >Contact</a>
-
-				</div>
-
-				{% if loop.index % 3 == 0 %}
-					<div class="clearfix"></div>
-				{% endif %}
-
-
-			{% endfor %}
-{% if app.request.method == 'POST' and voitures is not empty %}
-    <h2>Résultats de recherche</h2>
-    <ul>
-        {% for voiture in voitures %}
-            <li>{{ voiture.titre }} - {{ voiture.prix }}€</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Aucun résultat trouvé.</p>
-{% endif %}
-	{#</div>
-	<div id="results"></div>
-	</div>#}
-	
-
+							</form>
+	</div>
+    <div class="container" id="results">
+        <h1>Véhicules d'occasion</h1>
+        <div class="row">
+            {% for voiture in voitures %}
+                <div class="col-md-4 voiture-item">
+                    {% if voiture.id %}
+                        <h3 class="visually-hidden" id="IDvoiture">
+                            {{ voiture.id }}
+                        </h3>
+                    {% endif %}
+                    {% if voiture.image %}
+                        <img class="voiture-item-image" src="{{ asset('uploads/Voiture/' ~ voiture.image) }}" alt="">
+                    {% endif %}
+                    {% if voiture.titre %}
+                        <h3 class="voiture-item-heading" id="sujet">
+                            <span class="voiture-item-name" id="sujet-titre">{{ voiture.titre }}</span>
+                        </h3>
+                    {% endif %}
+                    {% if voiture.anneeMiseCirculation %}
+                        <span class="voiture-item-annee" id="sujet-annee">{{ voiture.anneeMiseCirculation|date('d/m/Y') }}</span>
+                    {% endif %}
+                    {% if voiture.prix %}
+                        <span class="voiture-item-price">{{ voiture.prix / 100 }}€</span>
+                    {% endif %}
+                    {% if voiture.description %}
+                        <p class="visually-hidden" id="description">
+                            {{ voiture.description }}
+                        </p>
+                    {% endif %}
+                    <button class="btn-primary buttonDescription" id="buttonDescription">Voir la description</button>
+                    <a href="/contact" class="btn btn-primary contact" id="contact-des">Contact</a>
+                </div>
+                {% if loop.index % 3 == 0 or loop.last %}
+                    <div class="clearfix"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

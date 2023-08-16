@@ -1,8 +1,42 @@
+@import 'variables';
+
+body {
+  background-color: $white-color;
+  font-family: $MyFont;
+  color: $secondary-color;
+  h1 {
+    
+    color: $primary-color;
+  } 
+  .navbar {
+    background-color: $primary-color;
+  }
+  .footer-inline {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 8px;
+    background-color: $primary-color;
+  }
+}
 /* Pour personnaliser la taille de la police dans les en-têtes h1 et h2 */
 h1, h2 {
   font-size: 24px;
 }
 
+.recherche {
+  margin: 10px 0;
+}
+/* Pour personnaliser le fond et la couleur du texte dans le footer */
+
+ul.list-inline{
+  text-align: center;
+}
+li.list-inline-item>a{
+  text-decoration: none;
+  color: $secondary-color;
+  font-weight: $bold;
+}
 /* Pour personnaliser le fond et la couleur du texte dans le footer */
 .footer-inline {
   
