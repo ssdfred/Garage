@@ -89,7 +89,7 @@ class VoitureRepository extends ServiceEntityRepository
     {
       
         // Récupérer toutes les voitures qui se trouvent dans la plage de prix donnée
-        dump($prixMin, $prixMax); // Vérifier les valeurs des paramètres
+        //dump($prixMin, $prixMax); // Vérifier les valeurs des paramètres
         $results = $this->createQueryBuilder('v')
         ->where('v.prix >= :prixMin')
         ->andWhere('v.prix <= :prixMax')
@@ -98,7 +98,7 @@ class VoitureRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
 
-    dump($results); // Vérifier les résultats de la requête
+    //dump($results); // Vérifier les résultats de la requête
 
     return $results;
 }
@@ -113,5 +113,28 @@ public function findByPrixRange(float $prixMin, float $prixMax): array
         ->getQuery()
         ->getResult();
 }
+public function findByFilters($priceMin, $priceMax, $kilometersMin, $kilometersMax, $yearMin, $yearMax)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        if ($priceMin !== null && $priceMax !== null) {
+            $qb->andWhere('c.prix>= :price_min AND c.prix <= :price_max')
+                ->setParameter('price_min', $priceMin)
+                ->setParameter('price_max', $priceMax);
+        }
+
+        if ($kilometersMin !== null && $kilometersMax !== null) {
+            $qb->andWhere('c.kilometrage >= :kilometers_min AND c.kilometrage <= :kilometers_max')
+                ->setParameter('kilometers_min', $kilometersMin)
+                ->setParameter('kilometers_max', $kilometersMax);
+        }
+
+        if ($yearMin !== null && $yearMax !== null) {
+            $qb->andWhere('c.anneeMiseCirculation >= :year_min AND c.anneeMiseCirculation <= :year_max')
+                ->setParameter('year_min', $yearMin)
+                ->setParameter('year_max', $yearMax);
+        }
+        return $qb->getQuery()->getResult();
+    }
 
 }

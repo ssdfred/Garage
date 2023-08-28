@@ -1,31 +1,42 @@
 @import 'variables';
 
-body {
+html, body {
   background-color: $white-color;
   font-family: $MyFont;
   color: $secondary-color;
+  height: auto;
   h1 {
     
-    color: $primary-color;
+    color: $secondary-color;
   } 
   .navbar {
     background-color: $primary-color;
   }
+
   .footer-inline {
-    bottom: 0;
+   
     left: 0;
     width: 100%;
     margin: 8px;
     background-color: $primary-color;
   }
+  .footer-title{
+    color: $white-color;
+    text-align: center;
+  }
+  .row-inline{
+    justify-content: space-evenly;
+    
+  }
 }
 /* Pour personnaliser la taille de la police dans les en-têtes h1 et h2 */
 h1, h2 {
-  font-size: 24px;
+  font-size: 28px;
 }
 
-.recherche {
-  margin: 10px 0;
+#navbarSupportedContent {
+  width: 25em;
+  margin-right: 20px;
 }
 /* Pour personnaliser le fond et la couleur du texte dans le footer */
 
@@ -37,17 +48,6 @@ li.list-inline-item>a{
   color: $secondary-color;
   font-weight: $bold;
 }
-/* Pour personnaliser le fond et la couleur du texte dans le footer */
-.footer-inline {
-  
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  margin: 8px;
-  background-color: #f8f9fa;
-  color: #333;
-}
-
 /* Styles pour les éléments de la voiture */
 .voiture-item {
   padding: 10px;
@@ -59,6 +59,7 @@ li.list-inline-item>a{
 
 .voiture-item-heading {
   margin: 10px 0;
+  text-align: center;
 }
 
 .voiture-item-name {
@@ -73,4 +74,85 @@ li.list-inline-item>a{
 .voiture-item-description {
   font-size: 14px;
 }
+/* Styles pour les curseurs de plage */
+.range-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
 
+.slider {
+  position: relative;
+  
+}
+
+.range-slider {
+  width: 100%;
+}
+
+.form_control_container__min,
+.form_control_container__max {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 12px;
+  top: -25px;
+}
+
+.range-slider + .form_control_container__max {
+  left: 100%;
+}
+
+/* Styles pour les poignées */
+.form_control_container__min::after,
+.form_control_container__max::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px 0.5px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+/* Styles pour les poignées actives */
+.form_control_container__min::after:hover,
+.form_control_container__max::after:hover {
+  background-color: #ccc;
+}
+
+/* Styles pour les spans créés */
+.range-slider span {
+  width: 30px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background: #03a9f4;
+  color: #fff;
+  font-size: 12px;
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  border-radius: 6px;
+  z-index: 5;
+}
+
+.range-slider span::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #03a9f4;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  margin-top: -1px;
+  z-index: 6;
+}

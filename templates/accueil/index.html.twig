@@ -1,59 +1,96 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Garage V.Parrot{% endblock %}
+{% block title %}Garage V.Parrot
+{% endblock %}
 
 {% block body %}
-	<div class="recherche" id="navbarSupportedContent">
-									<!-- Champs de recherche -->
-							<form id="filter-form">
-										<label for="prix_min">Prix min :</label>
-										<input type="number" id="prix_min" name="prix_min" class="form-control">
-									</div>
-									<div class="form-group">
-										<label for="prix_max">Prix max :</label>
-										<input type="number" id="prix_max" name="prix_max" class="form-control">
-									</div>
-
-									<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
-
-							</form>
+	<div
+		class="container recherche" id="navbarSupportedContent">
+		<!-- Champs de recherche -->
+		<form class="form-inline" id="filter-form">
+			<div class="row justify-content-end">
+				<div class="col-md-3">
+					<label for="prix_min">Prix min :</label>
+					<input type="number" id="prix_min" name="prix_min" class="form-control">
+				</div>
+				<div class="col-md-3">
+					<label for="prix_max">Prix max :</label>
+					<input type="number" id="prix_max" name="prix_max" class="form-control">
+				</div>
+				<div class="col-md-6">
+					<button class="btn btn-outline-success my-2 my-sm-4" type="submit">Rechercher</button>
+				</div>
+			</div>
+		</form>
 	</div>
-    <div class="container" id="results">
-        <h1>Véhicules d'occasion</h1>
-        <div class="row">
-            {% for voiture in voitures %}
-                <div class="col-md-4 voiture-item">
-                    {% if voiture.id %}
-                        <h3 class="visually-hidden" id="IDvoiture">
-                            {{ voiture.id }}
-                        </h3>
-                    {% endif %}
-                    {% if voiture.image %}
-                        <img class="voiture-item-image" src="{{ asset('uploads/Voiture/' ~ voiture.image) }}" alt="">
-                    {% endif %}
-                    {% if voiture.titre %}
-                        <h3 class="voiture-item-heading" id="sujet">
-                            <span class="voiture-item-name" id="sujet-titre">{{ voiture.titre }}</span>
-                        </h3>
-                    {% endif %}
-                    {% if voiture.anneeMiseCirculation %}
-                        <span class="voiture-item-annee" id="sujet-annee">{{ voiture.anneeMiseCirculation|date('d/m/Y') }}</span>
-                    {% endif %}
-                    {% if voiture.prix %}
-                        <span class="voiture-item-price">{{ voiture.prix / 100 }}€</span>
-                    {% endif %}
-                    {% if voiture.description %}
-                        <p class="visually-hidden" id="description">
-                            {{ voiture.description }}
-                        </p>
-                    {% endif %}
-                    <button class="btn-primary buttonDescription" id="buttonDescription">Voir la description</button>
-                    <a href="/contact" class="btn btn-primary contact" id="contact-des">Contact</a>
-                </div>
-                {% if loop.index % 3 == 0 or loop.last %}
-                    <div class="clearfix"></div>
-                {% endif %}
-            {% endfor %}
+
+	<div class="container" id="results">
+		<h1>Véhicules d'occasion</h1>
+
+<form action="{{ path('filter_cars') }}" method="post" >
+    <div class="range-container">
+        <div class="slider">
+            <div class="slider-label" id="rangeV"></div>
+            <div class="form_control_container__min">Min</div>
+            <div class="form_control_container__max">Max</div>
+            <input type="range" name="priceMin" class="range-slider" value="0" min="0" max="50000">
+            <input type="range" name="priceMax" class="range-slider" value="50000" min="0" max="50000">
         </div>
+        <div class="slider">
+            <div class="slider-label">Kilométrage</div>
+            <div class="form_control_container__min">Min Km</div>
+            <div class="form_control_container__max">Max Km</div>
+            <input type="range" name="kilometersMin" class="range-slider" value="0" min="0" max="100000">
+            <input type="range" name="kilometersMax" class="range-slider" value="100000" min="0" max="100000">
+        </div>
+        <div class="slider">
+            <div class="slider-label">Année</div>
+            <div class="form_control_container__min">Min Year</div>
+            <div class="form_control_container__max">Max Year</div>
+            <input type="range" name="yearMin" class="range-slider" value="1990" min="1990" max="2023">
+            <input type="range" name="yearMax" class="range-slider" value="2023" min="1990" max="2023">
+        </div>
+        <button type="submit">Filtrer</button>
     </div>
+</form>
+		<div class="row">
+			{% for voiture in voitures %}
+				<div class="col-md-4 voiture-item">
+					{% if voiture.id %}
+						<h3 class="visually-hidden" id="IDvoiture">
+							{{ voiture.id }}
+						</h3>
+					{% endif %}
+										{% if voiture.titre %}
+						<h2 class="voiture-item-heading" id="sujet">
+							<span class="voiture-item-name" id="sujet-titre">{{ voiture.titre }}</span>
+						</h2>
+					{% endif %}
+					{% if voiture.image %}
+						<img class="voiture-item-image" src="{{ asset('uploads/Voiture/' ~ voiture.image) }}" alt="">
+					{% endif %}
+
+					{% if voiture.anneeMiseCirculation %}
+						<span class="voiture-item-annee" id="sujet-annee">Année de ise en circulationn : {{ voiture.anneeMiseCirculation|date('d/m/Y') }}</span>
+					{% endif %}
+					{% if voiture.prix %}
+
+						<div>
+							<span class="voiture-item-price">Prix : {{ voiture.prix / 100 }}€</span>
+						</div>
+					{% endif %}
+					{% if voiture.description %}
+						<p class="visually-hidden" id="description">
+							{{ voiture.description }}
+						</p>
+					{% endif %}
+					<button class="btn-primary buttonDescription" id="buttonDescription">Voir la description</button>
+					<a href="/contact" class="btn btn-primary contact" id="contact-des" data-specific="" >Contact</a>
+				</div>
+				{% if loop.index % 3 == 0 or loop.last %}
+					<div class="clearfix"></div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}

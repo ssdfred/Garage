@@ -14,18 +14,19 @@ console_command = "php /var/www/html/artisan tinker"
 
 [processes]
   app = ""
-  worker = "php bin/console messenger:consume async -vvv"
+  worker = "php bin/console messenger:consume async"
 
 [deploy]
-  release_command = "php bin/console doctrine:migrations:migrate"
+  release_command = "php bin/console doctrine:migrations:migrate --no-interaction"
 
 [env]
   APP_ENV = "prod"
   APP_DEBUG = "0"
   LOG_LEVEL = "info"
-  MESSENGER_TRANSPORT_DSN = 'doctrine://default?auto_setup=0'
+  MESSENGER_TRANSPORT_DSN = 'MAILER_DSN'
   LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
   APP_RUNTIME = '\App\FlySymfonyRuntime'
+
 
 [experimental]
   allowed_public_ports = []
@@ -51,8 +52,10 @@ console_command = "php /var/www/html/artisan tinker"
     handlers = ["tls", "http"]
     port = 443
 
+
   [[services.tcp_checks]]
     grace_period = "1s"
     interval = "15s"
     restart_limit = 0
     timeout = "2s"
+

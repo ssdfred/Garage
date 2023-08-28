@@ -35,10 +35,7 @@
         <input type="hidden" name="_target_path" value="/">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <input type="submit" value="Connexion" class="btn btn-success mt-2">
+        <a href="/user/new" class="btn btn-primary mt-2">Créer un compte</a>
     </form>
-    <pre>
-        {{ dump(form) }}
-    </pre>
 
-    <a href="/user/new" class="btn btn-link">Vous n'avez pas encore de compte ?</a>
 {% endblock %}

@@ -7,3 +7,8 @@ search:
     path: /search
     methods: [POST]
     controller: App\Controller\AccueilController::search
+
+filter_cars:
+    path: /filter-cars
+    controller: App\Controller\AccueilController::filterCars
+    methods: [POST]

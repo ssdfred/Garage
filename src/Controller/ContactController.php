@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\ContactType;
 use App\Entity\FormulaireContact;
+use App\Entity\Voiture;
 use App\Repository\HoraireRepository;
 use App\Repository\VoitureRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,6 +42,8 @@ class ContactController extends AbstractController
 
 
         // Créer le formulaire de contact
+        $voiture = $voitureRepository->find('titre'); 
+        $form = new FormulaireContact($voiture);
         $form = $this->createForm(ContactType::class, $contact);
         // Gérer la soumission du formulaire
         $form->handleRequest($request);

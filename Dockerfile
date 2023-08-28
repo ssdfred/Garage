@@ -6,7 +6,7 @@
 ARG PHP_VERSION=8.2
 ARG NODE_VERSION=18
 
-FROM fideloper/fly-laravel:${PHP_VERSION} as base
+FROM serversideup/php:${PHP_VERSION}-fpm-nginx-v1.5.0 as base
 
 # PHP_VERSION needs to be repeated here
 # See https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     php${PHP_VERSION}-xml php${PHP_VERSION}-mbstring \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+    
 
 WORKDIR /var/www/html
 # copy application code, skipping files based on .dockerignore
@@ -37,7 +38,7 @@ RUN composer install --optimize-autoloader --no-dev --no-scripts \
     && chmod +x /entrypoint
 # Multi-stage build: Build static assets
 # This allows us to not include Node within the final container
-FROM node:${NODE_VERSION} as node_modules_go_brrr
+FROM node:19 as build_frontend_assets
 
 RUN mkdir /app
 
@@ -57,10 +58,8 @@ FROM base
 # Packages like Laravel Nova may have added assets to the public directory
 # or maybe some custom assets were added manually! Either way, we merge
 # in the assets we generated above rather than overwrite them
-COPY --from=node_modules_go_brrr /app/public /var/www/html/public-npm
-RUN rsync -ar /var/www/html/public-npm/ /var/www/html/public/ \
-    && rm -rf /var/www/html/public-npm \
-    && chown -R www-data:www-data /var/www/html/public
+COPY --from=build_frontend_assets /app/pub$lic/build /var/www/html/public/build
+
 
 EXPOSE 8080
 

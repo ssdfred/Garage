@@ -22,6 +22,8 @@ const buttonDescriptions = document.querySelectorAll(".buttonDescription");
         }
     });
 });
+
+
 // fonction pour le bouton de recherche
 const searchForm = document.getElementById('filter-form');
 const searchResults = document.getElementById('results');
@@ -45,7 +47,7 @@ searchForm.addEventListener('submit', (event) => {
 
         .then(response => {
             ;
-            console.log(response);
+            
             searchResults.innerHTML = ''; // Efface le contenu précédent avant d'ajouter les nouveaux résultats
             let rowDiv = document.createElement('div'); // Création d'un élément div pour chaque ligne
             rowDiv.classList.add('row'); // Ajout de la classe "row"
@@ -118,14 +120,24 @@ searchForm.addEventListener('submit', (event) => {
 //
 //}
 document.addEventListener('DOMContentLoaded', () => {
-    // Récupère l'élément du formulaire de contact
     const formulaireContact = document.querySelector("#contact-form");
-
-    // Écoute le clic sur le bouton "Contact" de chaque voiture
     const contactButtons = document.querySelectorAll(".contact");
-    console.log(contactButtons);
+
     contactButtons.forEach(button => {
         button.addEventListener("click", () => {
+            const titre = button.getAttribute("data-specific");
+            alert(titre);
+
+            const sujetInput = formulaireContact.getElementById("contact_sujet");
+            sujetInput.value = titre;
+            alert("Sujet : " + sujetInput.value)
+        });
+    });
+});
+
+  /*  contactButtons.forEach(button,index  => {
+        button.addEventListener("click", () => {
+            alert(JSON.stringify(`button ${index}`, button));
             // Récupère le titre de la voiture
             const titre = button.parentElement.querySelector(".voiture-item-heading .voiture-item-name").textContent;
 
@@ -138,4 +150,81 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Sujet : " + sujetInput.value);
         });
     });
+});*/
+/*
+// fonction pour le filtre de recherche
+document.addEventListener('DOMContentLoaded', function() {
+    const slidersControl = document.querySelectorAll('.slider');
+    
+    slidersControl.forEach(sliderControl => {
+        const slider = sliderControl.querySelector('.range-slider');
+        const minValueInput = sliderControl.querySelector('.form_control_container__min');
+        const maxValueInput = sliderControl.querySelector('.form_control_container__max');
+        const rangeV = sliderControl.querySelector('.slider-label');
+        
+        slider.addEventListener('input', function() {
+            const minValue = parseFloat(minValueInput.getAttribute('min'));
+            const maxValue = parseFloat(maxValueInput.getAttribute('max'));
+            const sliderValue = parseFloat(slider.value);
+            
+            if (sliderValue < minValue) {
+                slider.value = minValue;
+            } else if (sliderValue > maxValue) {
+                slider.value = maxValue;
+            }
+            
+            minValueInput.value = slider.value;
+            rangeV.textContent = slider.value;
+        });
+        
+        minValueInput.addEventListener('input', function() {
+            const minValue = parseFloat(minValueInput.getAttribute('min'));
+            const maxValue = parseFloat(maxValueInput.getAttribute('max'));
+            const inputValue = parseFloat(minValueInput.value);
+            
+            if (inputValue < minValue) {
+                minValueInput.value = minValue;
+            } else if (inputValue > maxValue) {
+                minValueInput.value = maxValue;
+            }
+            
+            slider.value = minValueInput.value;
+            rangeV.textContent = minValueInput.value;
+        });
+        
+        maxValueInput.addEventListener('input', function() {
+            const minValue = parseFloat(minValueInput.getAttribute('min'));
+            const maxValue = parseFloat(maxValueInput.getAttribute('max'));
+            const inputValue = parseFloat(maxValueInput.value);
+            
+            if (inputValue < minValue) {
+                maxValueInput.value = minValue;
+            } else if (inputValue > maxValue) {
+                maxValueInput.value = maxValue;
+            }
+            
+            slider.value = maxValueInput.value;
+            rangeV.textContent = maxValueInput.value;
+        });
+    });
+});*/
+const
+  sliders = document.querySelectorAll('.range-slider'),
+  rangeV = document.getElementById('rangeV');
+
+sliders.forEach(slider => {
+  slider.addEventListener('input', () => {
+    const newValue = Number((slider.value - slider.min) * 100 / (slider.max - slider.min)),
+          newPosition = 10 - (newValue * 0.2);
+    rangeV.innerHTML = `<span>${slider.value}</span>`;
+    rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
+  });
+});
+
+// Appel initial pour définir les valeurs initiales
+sliders.forEach(slider => {
+  const newValue = Number((slider.value - slider.min) * 100 / (slider.max - slider.min)),
+        newPosition = 10 - (newValue * 0.2);
+  rangeV.innerHTML = `<span>${slider.value}</span>`;
+  rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
 });

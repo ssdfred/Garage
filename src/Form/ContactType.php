@@ -6,6 +6,7 @@ use App\Entity\FormulaireContact;
 use App\Entity\Voiture;
 use Doctrine\ORM\QueryBuilder;
 use App\Repository\VoitureRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\AbstractType;
@@ -24,20 +25,26 @@ class ContactType extends AbstractType
         $builder
 
 
-           ->add('sujet', TextType::class, [
+           ->add('sujet', EntityType::class, [
             'label' => 'sujet',
             'required' => true,
+            'class' => Voiture::class,
+            'query_builder' => function (EntityRepository $er): QueryBuilder {
+                return $er->createQueryBuilder('u')
+                    ->orderBy('u.titre');
+            },
             'attr' => [
                 'class' => 'form-control',
             ],
         ])
         ->add('voiture', EntityType::class, [
             'class' => Voiture::class,
-            'query_builder' => function (VoitureRepository $er): QueryBuilder {
+            //'choice_label' => 'titre',
+            'query_builder' => function (EntityRepository $er): QueryBuilder {
                 return $er->createQueryBuilder('u')
-                    ->orderBy('u.titre', 'ASC');
+                    ->orderBy('u.titre');
             },
-            'choice_label' => 'titre',
+           // 'choice_label' => 'titre',
 
         ])
             ->add('nom', TextType::class, [

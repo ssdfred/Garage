@@ -5,16 +5,19 @@
 
 {% block body %}
 	<h1>Nous contacter</h1>
+	{% for voiture in voitures %}
 
 	{{ form_start(form) }}
-	{{form_row(form.nom)}}
-	{{form_rest(form)}}
-	<button class="contact" type="submit">
-		Contact
-	</button>
+	{% if form.voiture.vars.value %}
+    <p id="contact_sujet">Titre de la voiture sélectionnée : {{ form.voiture.vars.value.getTitre() }}</p>
+{% endif %}
+	{#{{form_row(form.nom)}}
+	#}{{form_rest(form)}}
+
+	{% endfor %}
 	{{ form_end(form) }}
-	<pre>
-    {{ dump(form) }}
+<pre>
+	{{ dump(form) }}
 </pre>
 	<form id="contact-form" method="POST" action="{{ path('contact') }}">
 		<div class="form-group">
@@ -39,7 +42,7 @@
 		</div>
 		<div class="form-group">
 			<label for="sujet">information du vehicule</label>
-			<input id="sujet" name="sujet" class="form-control">
+			<input id="contact_sujet" name="sujet" class="form-control">
 		</div>
 
 
@@ -52,21 +55,6 @@
 
 
 {% block javascripts %}
-	<script>
-		window.onload = () => { // Récupérer l'élément du formulaire de contact
-const formulaireContact = document.getElementById("contact-form");
 
-// Écouter le clic sur le bouton "Contact" de chaque voiture
-document.querySelectorAll(".btn-primary.contact").forEach(button => {
-button.addEventListener("click", () => { // Récupérer le titre de la voiture
-const titre = button.parentElement.querySelector(".sujet-titre").textContent;
-dump(titre);
-// Pré-remplir le champ "sujet" du formulaire de contact avec le titre de la voiture
-const sujetInput = formulaireContact.querySelector("#sujet");
-sujetInput.value = titre;
-});
-});
-return true;
-};
-	</script>
+	<script src="{{ asset('app.js') }}"></script>
 {% endblock %}
