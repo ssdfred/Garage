@@ -6,14 +6,9 @@ hooks:
 
         symfony-build
 
-        cd web/js_app
+        # Setup everything to use the Node installation
         unset NPM_CONFIG_PREFIX
         export NVM_DIR=${SYMFONY_APP_DIR}/.nvm
-
-        NODE_VERSION=8 yarn-install
-
-        # Setup everything to use the Node installation
-        set +x && . "${NVM_DIR}/nvm.sh" use 8 && set -x
-
-        # Starting from here, everything is setup to use Node 8
-        yarn build --environment=prod  
+        set +x && . "${NVM_DIR}/nvm.sh" use --lts && set -x
+        # Starting from here, everything is setup to use the same Node
+        yarn encore dev  
