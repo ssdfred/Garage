@@ -15,7 +15,7 @@ relationships:
 
 # The hooks executed at various points in the lifecycle of the app.
 hooks:
-    deploy: !include
+    deploy: 
       type: string
       path: platformsh-scripts/hooks.deploy.sh
 
