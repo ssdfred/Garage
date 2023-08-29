@@ -1,32 +1,27 @@
-# fly.toml app configuration file generated for throbbing-leaf-1626 on 2023-08-15T09:50:18+02:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
+# fly.toml file generated for misty-sky-4736 on 2022-10-23T20:54:43+02:00
 
 app = "throbbing-leaf-1626"
-primary_region = "cdg"
-console_command = "php /var/www/html/artisan tinker"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
 
 [build]
   [build.args]
-    NODE_VERSION = "18"
-    PHP_VERSION = "8.2"
+    NODE_VERSION = "14"
+    PHP_VERSION = "8.1"
 
 [processes]
   app = ""
-  worker = "php bin/console messenger:consume async"
+  worker = "php bin/console messenger:consume async -vvv"
 
 [deploy]
-  release_command = "php bin/console doctrine:migrations:migrate --no-interaction"
+  release_command = "php bin/console doctrine:migrations:migrate"
 
 [env]
-  APP_ENV = "prod"
-  APP_DEBUG = "0"
-  LOG_LEVEL = "info"
-  MESSENGER_TRANSPORT_DSN = 'MAILER_DSN'
-  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  APP_ENV = 'prod'
+  APP_DEBUG = '0'
+  MESSENGER_TRANSPORT_DSN = 'doctrine://default?auto_setup=0'
   APP_RUNTIME = '\App\FlySymfonyRuntime'
-
 
 [experimental]
   allowed_public_ports = []
@@ -52,10 +47,8 @@ console_command = "php /var/www/html/artisan tinker"
     handlers = ["tls", "http"]
     port = 443
 
-
   [[services.tcp_checks]]
     grace_period = "1s"
     interval = "15s"
     restart_limit = 0
     timeout = "2s"
-

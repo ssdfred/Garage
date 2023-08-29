@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     git curl zip unzip rsync ca-certificates vim htop cron \
     php${PHP_VERSION}-pgsql php${PHP_VERSION}-bcmath \
     php${PHP_VERSION}-xml php${PHP_VERSION}-mbstring \
+    && apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
     
@@ -58,7 +59,7 @@ FROM base
 # Packages like Laravel Nova may have added assets to the public directory
 # or maybe some custom assets were added manually! Either way, we merge
 # in the assets we generated above rather than overwrite them
-COPY --from=build_frontend_assets /app/pub$lic/build /var/www/html/public/build
+COPY --from=build_frontend_assets /app/public/build /var/www/html/public/build
 
 
 EXPOSE 8080

@@ -1,15 +1,16 @@
-#!/usr/bin/env sh
+TEMPFILE=`mktemp`
+trap "rm -rf $TEMPFILE" EXIT
 
-# Run user scripts, if they exist
-for f in /var/www/html/.fly/scripts/*.sh; do
-    # Bail out this loop if any script exits with non-zero status code
-    bash "$f" || break
+SECRET_KEYS=`fly secrets list -a $1 | tail -n +2 | cut -f1 -d" "`
+fly ssh console -a $1 -C env | tr -d '\r' > $TEMPFILE
+
+for key in $SECRET_KEYS; do
+  PATTERN="${PATTERN}\|${key}"
 done
-chown -R www-data:www-data /var/www/html
 
+grep $PATTERN $TEMPFILE | fly secrets import -a $2
 if [ $# -gt 0 ]; then
     # If we passed a command, run it as root
     exec "$@"
 else
     exec /init
-fi
