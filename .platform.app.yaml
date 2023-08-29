@@ -1,36 +1,19 @@
-# The name of this app. Must be unique within the project.
-name: 'drupal'
-
-# The runtime the app uses.
-type: 'php:8.1'
-
-dependencies:
-    php:
-        composer/composer: '^2'
-
-# The relationships of the app with services or other apps.
-relationships:
-    database: 'db:mysql'
-    redis: 'cache:redis'
-
-# The hooks executed at various points in the lifecycle of the app.
 hooks:
-    deploy: 
-      type: string
-      path: platformsh-scripts/hooks.deploy.sh
+    build: |
+        set -x -e
 
-# The size of the persistent disk of the app (in MB).
-disk: 2048
+        curl -s https://get.symfony.com/cloud/configurator | bash
 
-# The 'mounts' describe writable, persistent filesystem mounts in the app.
-mounts:
-    /.drush:
-        source: local
-        source_path: 'drush'
-    /drush-backups:
-        source: local
-        source_path: 'drush-backups'
-    deploy:
-        source: service
-        service: files
-        source_path: deploy
+        symfony-build
+
+        cd web/js_app
+        unset NPM_CONFIG_PREFIX
+        export NVM_DIR=${SYMFONY_APP_DIR}/.nvm
+
+        NODE_VERSION=8 yarn-install
+
+        # Setup everything to use the Node installation
+        set +x && . "${NVM_DIR}/nvm.sh" use 8 && set -x
+
+        # Starting from here, everything is setup to use Node 8
+        yarn build --environment=prod  
