@@ -1,3 +1,26 @@
+Skip to main content
+Image not available
+Custom project 1
+Europe - Sweden eu-5 - AWS, krrzcdezts74i
+Finish setup
+Development PlanUpgrade
+5 GB
+Disk
+0 out of 4
+Environments
+1
+Users
+Main environment inactive
+Apps & Services
+Your services could not be displayed. Contact support if this problem persists.
+
+Configure the HTTP router
+Platform.sh supports multiple applications in a single cluster as well as advanced caching and redirects. The .platform/routes.yaml file defines those. The example below routes all the requests to a single application and redirects the
+
+www. subdomain to the root domain.
+Learn more about configuring your routes.
+
+Example file: routes.yaml
 # Each route describes how an incoming URL is going to be processed by Platform.sh.
 "https://www.{default}/":
     type: upstream
@@ -6,3 +29,30 @@
 "https://{default}/":
     type: redirect
     to: "https://www.{default}/"
+
+
+Commit & push
+Environments
+
+
+
+
+Main
+Activity
+RECENT
+ALL
+Running (0)
+You have no running activities
+Pending (0)
+You have no pending activities
+Recent (1)
+Platform sh
+Platform.sh Bot created a new project Custom project 1
+1 sec
+12:29 Aug 29, 2023
+
+Version v2.6.0+7e1e17300 with  Platform.sh
+JavaScript/Node.js popup menu has been closed
+
+
+
