@@ -1,14 +1,53 @@
+# Le nom de l'application
+name: app
+ 
+# Le type d'application à construire
+type: php:7.1
+build:
+    flavor: composer
+ 
+variables:
+    env:
+        # Configuration des variables d'environnement pour Symfony
+        APP_ENV: 'prod'
+        APP_DEBUG: 0
+ 
+dependencies:
+    nodejs:
+        yarn: "*"
+ 
+# Actions à exécuter à la construction et au déploiement
 hooks:
     build: |
-        set -x -e
-
-        curl -s https://get.symfony.com/cloud/configurator | bash
-
-        symfony-build
-
-        # Setup everything to use the Node installation
-        unset NPM_CONFIG_PREFIX
-        export NVM_DIR=${SYMFONY_APP_DIR}/.nvm
-        set +x && . "${NVM_DIR}/nvm.sh" use --lts && set -x
-        # Starting from here, everything is setup to use the same Node
-        yarn encore dev  
+        set -e
+        yarn install
+        yarn run encore production
+        bin/console assets:install --no-debug
+        bin/console cache:clear
+    deploy: |
+        bin/console assets:install --symlink --relative public
+        bin/console cache:clear
+        bin/console --env=dev doctrine:fixtures:load
+ 
+ 
+# Les services utilisés
+relationships:
+    database: "mysqldb:mysql"
+ 
+# L'espace disque configurés
+disk: 2048
+ 
+# Les dossiers qui doivent rester accessibles en écriture
+mounts:
+    "/var/cache": "shared:files/cache"
+    "/var/log": "shared:files/log"
+    "/var/sessions": "shared:files/sessions"
+ 
+# La configuration web
+web:
+    locations:
+        "/":
+            # Dossier public
+            root: "public"
+            # Le contrôleur frontal (qui doit recevoir toutes les requêtes)
+            passthru: "/index.php"
