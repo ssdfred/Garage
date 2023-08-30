@@ -2,7 +2,7 @@
 name: app
  
 # Le type d'application à construire
-type: php:8.1
+type: php:8.2
 build:
     flavor: composer
  
