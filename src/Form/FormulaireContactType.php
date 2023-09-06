@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Form;
-
+use App\Entity\Voiture;
+use App\Repository\VoitureRepository;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use App\Entity\FormulaireContact;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +24,13 @@ class FormulaireContactType extends AbstractType
                'label' => false,
 
             ))
+ 
+            ->add('anneeMiseCirculation', DateType::class, [
+                'label' => 'Année de mise en circulation',
+                'format' => 'dd/MM/yyyy',
+                'html5' => false,
+                'widget' => 'single_text',
+            ])
            ->add('sujet')
             ->add('nom')
             ->add('prenom')
@@ -37,6 +46,8 @@ class FormulaireContactType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => FormulaireContact::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
         ]);
     }
 }

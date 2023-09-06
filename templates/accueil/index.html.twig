@@ -85,7 +85,7 @@
 						</p>
 					{% endif %}
 					<button class="btn-primary buttonDescription" id="buttonDescription">Voir la description</button>
-					<a href="/contact" class="btn btn-primary contact" id="contact-des" data-specific="" >Contact</a>
+					<a href="{{ path('contact', {'id': voiture.id})}}" class="btn btn-primary contact" id="contact-des" data-specific="">Contact</a>
 				</div>
 				{% if loop.index % 3 == 0 or loop.last %}
 					<div class="clearfix"></div>

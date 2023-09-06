@@ -27,16 +27,27 @@
 					{#<a class="navbar-brand" href="/">Garage</a>#}
 					<ul
 						class="navbar-nav me-auto mb-2 mb-lg-0">
-						{# {% if is_granted('ROLE_ADMIN') %} #}
+						 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %} 
 						<li class="nav-item">
 							<a class="nav-link one" href="/admin">admin</a>
 						</li>
-						{# {% endif %} #}
+						 {% endif %} 
 					</ul>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link one" aria-current="page" href="/">Accueil</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link one" href="/service">Services</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link one" href="/voiture/new">Contact</a>
+							</li>
+						</ul>
 						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 							<li class="nav-item">
 								<a class="nav-link one" aria-current="page" href="/">Accueil</a>

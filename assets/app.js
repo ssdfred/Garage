@@ -119,14 +119,14 @@ searchForm.addEventListener('submit', (event) => {
 //    });
 //
 //}
-document.addEventListener('DOMContentLoaded', () => {
+/*document.addEventListener('DOMContentLoaded', () => {
     const formulaireContact = document.querySelector("#contact-form");
     const contactButtons = document.querySelectorAll(".contact");
 
     contactButtons.forEach(button => {
         button.addEventListener("click", () => {
             const titre = button.getAttribute("data-specific");
-            alert(titre);
+            //alert(titre);
 
             const sujetInput = formulaireContact.getElementById("contact_sujet");
             sujetInput.value = titre;
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
+*/
   /*  contactButtons.forEach(button,index  => {
         button.addEventListener("click", () => {
             alert(JSON.stringify(`button ${index}`, button));

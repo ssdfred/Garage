@@ -2,15 +2,21 @@
 
 namespace App\Controller;
 
+use App\Form\ContactType;
+use App\Entity\FormulaireContact;
+use App\Repository\HoraireRepository;
 use App\Entity\Voiture;
 use App\Form\VoitureType;
 use App\Repository\VoitureRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class VoitureController extends AbstractController
 {
@@ -27,6 +33,7 @@ class VoitureController extends AbstractController
     #[Route('/voitures', name: 'voitures')]
     public function index(): Response
     {
+        
         $voitures = $this->voitureRepository->findAll();
 
         return $this->render('voiture/index.html.twig', [
@@ -35,21 +42,37 @@ class VoitureController extends AbstractController
     }
 
     #[Route('/voiture/new', name: 'voiture_new')]
-    public function create(Request $request): Response
+    public const ACTION_DUPLICATE = 'duplicate';
+    public const VOITURE_BASE_PATH = 'uploads/Voiture';
+    public const VOITURE_UPLOAD_DIR = 'public/uploads/Voiture';
+    public function create(Request $request, HoraireRepository $horaireRepository, ManagerRegistry $doctrine,SluggerInterface $slugger): Response
     {
-        // Retrieve the form data
-        $formData = $request->request->all();
+        $horaires = $horaireRepository->findAll();
 
-        // Suppose the restaurant name is in $formData['restaurantName']
-
-        // Retrieve the corresponding Restaurant entity from the database
-        $voiture = $this->entityManager->getRepository(Voiture::class)->find(['voiture' => $formData['voiture.id']]);
         $voiture = new Voiture();
-
+dump($voiture);
         $form = $this->createForm(VoitureType::class, $voiture);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+
+            if ($image) {
+                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
+                try {
+                    $image->move(
+                        $this->getParameter('uploads'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                  //  dump($e);
+                }
+                $voiture->setImage($newFilename);
+            }
+            $voiture->setUser($this->getUser());
+            $voiture->$doctrine->getManager();
             $this->entityManager->persist($voiture);
             $this->entityManager->flush();
 
@@ -58,6 +81,7 @@ class VoitureController extends AbstractController
 
         return $this->render('voiture/create.html.twig', [
             'form' => $form->createView(),
+            'horaires' => $horaires,
         ]);
     }
 
@@ -99,17 +123,33 @@ class VoitureController extends AbstractController
     }
 
     #[Route("/voiture/{id}/contact", name: "voiture_contact")]
+    public function voitureContact(
+        VoitureRepository $voitureRepository,
+        HoraireRepository $horaireRepository,
 
-    public function contact(Voiture $voiture, Request $request): Response
-    {
-        // Récupérer les informations spécifiques de la voiture
-        $voitureTitre = $voiture->getTitre();
-        $voitureAnnee = $voiture->getAnneeMiseCirculation();
-
-        // Passer les informations à l'action de contact
-        return $this->redirectToRoute('contact', [
-            'voitureTitre' => $voitureTitre,
-            'voitureAnnee' => $voitureAnnee,
-        ]);
-    }
+        int $id
+    ): Response {
+        // Récupérer la voiture correspondante
+        $voiture = $voitureRepository->find($id);
+    
+        // Vérifier que la voiture existe
+        if (!$voiture) {
+            throw $this->createNotFoundException('Voiture non trouvée');
+        }
+     // Récupérer les informations spécifiques de la voiture
+     $voitureTitre = $voiture->getTitre();
+     $voitureAnnee = $voiture->getAnneeMiseCirculation();
+   
+        // Créer une instance du formulaire de contact
+        $contact = new FormulaireContact();
+   
+    // Passer les informations à la vue de contact
+    return $this->render('contact/contact.html.twig', [
+        'horaires' => $horaireRepository->findAll(),
+        'voiture' => $voiture,
+        'contact' => $contact,
+        
+        
+    ]);
+}
 }

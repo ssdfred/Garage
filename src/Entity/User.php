@@ -56,8 +56,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->voitures = new ArrayCollection();
         $this->temoignages = new ArrayCollection();
         $this->formulaireContacts = new ArrayCollection();
-        
     }
+    
 
     public function getPassword(): ?string
     {
@@ -66,12 +66,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPassword(?string $password): self
     {
-        $this->password = $this->passwordHasher->hashPassword($this, $password);
-
+        $this->password = $this->passwordHasher->hashPassword(
+            $this,
+            $password
+        ) ;
+       
         return $this;
     }
-
- 
 
     public function getId(): ?int
     {

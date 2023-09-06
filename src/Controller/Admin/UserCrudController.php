@@ -19,11 +19,16 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserCrudController extends AbstractCrudController
 {
-    private UserPasswordHasherInterface $userPasswordHasher;
+    private  $userPasswordHasher;
 
-    public function __construct(UserPasswordHasherInterface $userPasswordHasher)
+    public function __construct(UserPasswordHasherInterface $PasswordHasher)
     {
-        $this->userPasswordHasher = $userPasswordHasher;
+        $this->userPasswordHasher  = $PasswordHasher;
+    }
+    
+    public function createEntity(string $entityFqcn)
+    {
+        return new $entityFqcn($this->userPasswordHasher);
     }
     public static function getEntityFqcn(): string
     {
@@ -34,14 +39,14 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('nom ','Nom'),
+            TextField::new('nom', 'Nom'),
             TextField::new('prenom', 'Prénom'),
-            Field::new('password')->hideOnForm(),
-            yield ChoiceField::new('roles')->setChoices([
-                'Admin' => 'ROLE_ADMIN',
-                'Employé' => 'ROLE_EMPLOYE',
-                'User' => 'ROLE_USER'
-            ]),
+            Field::new('password'),
+            ChoiceField::new('roles')->setChoices([
+                'Administrateur' => "ROLE_ADMIN",
+                'Employé' => "ROLE_EMPLOYE",
+                'Utilisateur' => "ROLE_USER"
+            ])->allowMultipleChoices(),
             EmailField::new('email'),
 
 
@@ -83,14 +88,4 @@ class UserCrudController extends AbstractCrudController
 
         };
     }
-    /*
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
-    }
-    */
 }

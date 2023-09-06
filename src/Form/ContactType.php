@@ -4,49 +4,55 @@ namespace App\Form;
 
 use App\Entity\FormulaireContact;
 use App\Entity\Voiture;
-use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use App\Repository\VoitureRepository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\Entity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormTypeInterface;
 
 
 class ContactType extends AbstractType
 {
+    private $voitureRepository;
+
+    public function __construct(VoitureRepository $voitureRepository)
+    {
+        $this->voitureRepository = $voitureRepository;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder
 
 
-           ->add('sujet', EntityType::class, [
-            'label' => 'sujet',
+
+        ->add('sujet', TextType::class, [
+            'label' => 'Sujet',
             'required' => true,
-            'class' => Voiture::class,
-            'query_builder' => function (EntityRepository $er): QueryBuilder {
-                return $er->createQueryBuilder('u')
-                    ->orderBy('u.titre');
-            },
             'attr' => [
                 'class' => 'form-control',
+                'id' => 'contact_sujet',
             ],
         ])
-        ->add('voiture', EntityType::class, [
-            'class' => Voiture::class,
-            //'choice_label' => 'titre',
-            'query_builder' => function (EntityRepository $er): QueryBuilder {
-                return $er->createQueryBuilder('u')
-                    ->orderBy('u.titre');
-            },
-           // 'choice_label' => 'titre',
-
+        ->add('anneeMiseCirculation', TextType::class, [
+            'label' => 'Année de mise en circulation',
+            'mapped' => false,
+            'data' => 'anneeMiseCirculation',
+            'disabled' => true,
+            'required' => true,
+            'attr' => [
+                'class' => 'form-control',
+                'id' => 'anneeMiseCirculation',
+            ],
         ])
+
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
@@ -82,6 +88,7 @@ class ContactType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+
             ->add('envoyer', SubmitType::class, [
                 'label' => 'Envoyer',
                 'validation_groups' => ['Registration'],
@@ -95,8 +102,11 @@ class ContactType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => FormulaireContact::class,
+            'csrf_protection' => false,
+           
             
 
         ]);
     }
+    
 }

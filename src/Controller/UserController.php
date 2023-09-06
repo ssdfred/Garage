@@ -13,11 +13,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/user/new', name: 'user_new')]
+     #[Route('/user/new', name: 'user_new')]
     public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, ManagerRegistry $doctrine, HoraireRepository $horaireRepository): Response
     {
         $horaires = $horaireRepository->findAll();
-        $user = new User( $userPasswordHasher );
+        
+        // Créez une nouvelle instance d'utilisateur en passant le UserPasswordHasherInterface
+        $user = new User($userPasswordHasher);
+        
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         
@@ -27,14 +30,11 @@ class UserController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute("accueil");
-
-
-
         }
+        
         return $this->render('registration/register.html.twig', [
             "form" => $form->createView(),
             'horaires' => $horaires,
-
         ]);
     }
 

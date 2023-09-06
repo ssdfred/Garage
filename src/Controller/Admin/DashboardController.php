@@ -58,10 +58,13 @@ class DashboardController extends AbstractDashboardController
     {
         //yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
-        yield MenuItem::subMenu('User', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('Create user','fas fa-plus', User::class )->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Show user', 'fas fa-eye', User::class )
-        ]);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            yield MenuItem::subMenu('User', 'fas fa-bars')->setSubItems([
+                MenuItem::linkToCrud('Create user','fas fa-plus', User::class )->setAction(Crud::PAGE_NEW),
+                MenuItem::linkToCrud('Show user', 'fas fa-eye', User::class )
+            ]);
+        }
+yield MenuItem::section('Other');
 
         yield MenuItem::subMenu('Horaire', 'fas fa-bars')->setSubItems([
             MenuItem::linkToCrud('Create horaire','fas fa-plus', Horaire::class )->setAction(Crud::PAGE_NEW),

@@ -10,13 +10,17 @@
         </title>
     </head>
     <body>
-  <h1>Demande de 
-  {{ contact.nom }} {{ contact.prenom }}</h1>
-
-  <h2> {{ contact.voiture }}</h2>
-<p> Email : {{ contact.email }}</p>
-<div> {{ contact.sujet }}</div>
-<div> {{ contact.message }}</div>
+<h1>Demande de {{ contact.nom }} {{ contact.prenom }}</h1>
+    
+<div class="form-group">
+    <label for="sujet">Information du véhicule - {{ voitureTitre }} : {{ voitureAnnee|date('d/m/Y') }}</label>
+    <input id="anneeMiseCirculation" name="sujet" class="form-control" value="{{ voitureAnnee|date('d/m/Y') }}" disabled>
+    <input  id="contact_sujet" name="contact[sujet]" type="hidden" value="{{ voitureTitre }}>
+</div>
+<h2>{{ contact.voiture }}</h2>
+<p>Email : {{ contact.email }}</p>
+<div>{{ contact.sujet }} : {{ voitureTitre }}</div>
+<div>{{ contact.message }}</div>
 
     </body>
 </html>

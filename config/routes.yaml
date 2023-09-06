@@ -12,3 +12,8 @@ filter_cars:
     path: /filter-cars
     controller: App\Controller\AccueilController::filterCars
     methods: [POST]
+
+contact:
+    path: /contact/{id}
+    controller: App\Controller\ContactController::Contact
+    methods: [GET, POST]
