@@ -21,5 +21,13 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
+        # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    Aws\\S3\\S3Client:
+        arguments:
+            - version: 'latest'
+              region: 'eu-east-1'
+              endpoint: '127.0.0.1:9000'
+              credentials:
+                key: 'access1234'
+                secret: 'secret1234'
