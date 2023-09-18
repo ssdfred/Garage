@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TemoignageController!{% endblock %}
+
+{% block body %}
+<div class="container mt-2">
+	<h2>Nos témoignages</h2>
+</div>
+   <div class="row"> 
+        {% for temoignage in temoignages %}
+
+
+        <div class="col-md-3">
+                <div class="temoignage">
+                    <h3>Publié par : {{ temoignage.nom }}</h3>
+                    <p>{{ temoignage.commentaire }}</p>
+                    <p>{{ temoignage.createdAt|format_datetime('medium', 'short') }}</p>
+                    <div class="etoiles">
+                        {% for i in 1..5 %}
+                            {% if i <= temoignage.note %}
+                                <span class="bi bi-star-fill"></span>
+                            {% else %}
+                                <span class="bi bi-star"></span>
+                            {% endif %}
+        
+                        {% endfor %}
+                    </div>
+                </div>
+        </div>
+
+
+        {% endfor %}
+    </div>
+<div class="container mt-2">
+    <h2>Poster un témoignage</h2>
+    <button ></button>
+</div>
+{% endblock %}

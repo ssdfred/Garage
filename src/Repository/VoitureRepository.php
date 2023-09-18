@@ -56,15 +56,6 @@ class VoitureRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findMessagesByVoiture(Voiture $voiture)
-    {
-        return $this->createQueryBuilder('v')
-            ->leftJoin('v.messages', 'm')
-            ->andWhere('m.voiture = :voiture')
-            ->setParameter('voiture', $voiture)
-            ->getQuery()
-            ->getResult();
-    }
 
     public function findAllByPrixRange($prixMin, $prixMax): array
     {
@@ -79,7 +70,7 @@ class VoitureRepository extends ServiceEntityRepository
             ->getQuery();
     
         $result = $query->getResult();
-       // dump($result); // Vérifier les résultats de la requête
+       
         return $result;
     }
 

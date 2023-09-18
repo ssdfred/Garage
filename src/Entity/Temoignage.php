@@ -27,6 +27,13 @@ class Temoignage
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null ;
 
+    #[ORM\Column(type: "datetime")]
+    private \DateTime $createdAt;
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
     /**
      * @return mixed
      */
@@ -109,6 +116,26 @@ class Temoignage
     public function setUser($user)
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of createdAt
+     */ 
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set the value of createdAt
+     *
+     * @return  self
+     */ 
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Entity\Voiture;
 use Doctrine\DBAL\Types\DateType;
+use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -13,13 +14,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints\Date;
 class VoitureCrudController extends AbstractCrudController
 {
     public const ACTION_DUPLICATE = 'duplicate';
-    public const VOITURE_BASE_PATH = 'uploads/Voiture';
+    public const VOITURE_BASE_PATH = 'punlic/uploads';
     public const VOITURE_UPLOAD_DIR = 'public/uploads/Voiture';
 
     public static function getEntityFqcn(): string
@@ -53,7 +53,7 @@ class VoitureCrudController extends AbstractCrudController
             AssociationField::new('user'),
             TextField::new('titre'),
             TextareaField::new('description'),
-            MoneyField::new('prix')->setCurrency('EUR'),
+            IntegerField::new('prix'),
             ImageField::new('image')->setBasePath(self::VOITURE_BASE_PATH)
                 ->setUploadDir(self::VOITURE_UPLOAD_DIR),
             DateField::new('anneeMiseCirculation'),

@@ -27,32 +27,6 @@
 	<div class="container" id="results">
 		<h1>Véhicules d'occasion</h1>
 
-<form action="{{ path('filter_cars') }}" method="post" >
-    <div class="range-container">
-        <div class="slider">
-            <div class="slider-label" id="rangeV"></div>
-            <div class="form_control_container__min">Min</div>
-            <div class="form_control_container__max">Max</div>
-            <input type="range" name="priceMin" class="range-slider" value="0" min="0" max="50000">
-            <input type="range" name="priceMax" class="range-slider" value="50000" min="0" max="50000">
-        </div>
-        <div class="slider">
-            <div class="slider-label">Kilométrage</div>
-            <div class="form_control_container__min">Min Km</div>
-            <div class="form_control_container__max">Max Km</div>
-            <input type="range" name="kilometersMin" class="range-slider" value="0" min="0" max="100000">
-            <input type="range" name="kilometersMax" class="range-slider" value="100000" min="0" max="100000">
-        </div>
-        <div class="slider">
-            <div class="slider-label">Année</div>
-            <div class="form_control_container__min">Min Year</div>
-            <div class="form_control_container__max">Max Year</div>
-            <input type="range" name="yearMin" class="range-slider" value="1990" min="1990" max="2023">
-            <input type="range" name="yearMax" class="range-slider" value="2023" min="1990" max="2023">
-        </div>
-        <button type="submit">Filtrer</button>
-    </div>
-</form>
 		<div class="row">
 			{% for voiture in voitures %}
 				<div class="col-md-4 voiture-item">
@@ -71,12 +45,17 @@
 					{% endif %}
 
 					{% if voiture.anneeMiseCirculation %}
-						<span class="voiture-item-annee" id="sujet-annee">Année de ise en circulationn : {{ voiture.anneeMiseCirculation|date('d/m/Y') }}</span>
+						<span class="voiture-item-annee" id="sujet-annee">Année de mise en circulationn : {{ voiture.anneeMiseCirculation|date('d/m/Y') }}</span>
+					{% endif %}
+					{% if voiture.kilometrage %}
+						<div>
+							<span class="voiture-item-kilometrage" id="sujet-kilometrage">Kilométrage : {{ voiture.kilometrage }}</span>
+						</div>
 					{% endif %}
 					{% if voiture.prix %}
 
 						<div>
-							<span class="voiture-item-price">Prix : {{ voiture.prix / 100 }}€</span>
+							<span class="voiture-item-price">Prix : {{ voiture.prix | number_format(0, ',', ' ') }}€</span>
 						</div>
 					{% endif %}
 					{% if voiture.description %}
@@ -87,10 +66,33 @@
 					<button class="btn-primary buttonDescription" id="buttonDescription">Voir la description</button>
 					<a href="{{ path('contact', {'id': voiture.id})}}" class="btn btn-primary contact" id="contact-des" data-specific="">Contact</a>
 				</div>
-				{% if loop.index % 3 == 0 or loop.last %}
-					<div class="clearfix"></div>
-				{% endif %}
+
 			{% endfor %}
 		</div>
 	</div>
+<div class="container mt-2">
+	<h2>Nos témoignages</h2>
+</div>
+
+{% for temoignage in temoignages %}
+    <div class="container  temoignage">
+        <h3>Publié par : {{ temoignage.nom }}</h3>
+        <p>{{ temoignage.commentaire }}</p>
+        <p>{{ temoignage.createdAt|format_datetime('medium', 'short') }}</p>
+        <div class="etoiles">
+            {% for i in 1..5 %}
+                {% if i <= temoignage.note %}
+                    <span class="bi bi-star-fill"></span> <!-- Utilise la classe Bootstrap pour une étoile remplie -->
+                {% else %}
+                    <span class="bi bi-star"></span> <!-- Utilise la classe Bootstrap pour une étoile vide -->
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+  </div>  
+{% endfor %}
+
+<div class="container col-md-3">
+	<a href="/temoignage" class="btn btn-primary contact">Voir nos témoignages</a>
+</div>
 {% endblock %}

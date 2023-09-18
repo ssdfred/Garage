@@ -35,7 +35,8 @@ class ContactType extends AbstractType
 
         ->add('sujet', TextType::class, [
             'label' => 'Sujet',
-            'required' => true,
+            'disabled' => true,
+            'required' => false,
             'attr' => [
                 'class' => 'form-control',
                 'id' => 'contact_sujet',
@@ -46,7 +47,7 @@ class ContactType extends AbstractType
             'mapped' => false,
             'data' => 'anneeMiseCirculation',
             'disabled' => true,
-            'required' => true,
+            'required' => false,
             'attr' => [
                 'class' => 'form-control',
                 'id' => 'anneeMiseCirculation',

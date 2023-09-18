@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-
+    uploads: '%kernel.project_dir%/public/uploads/Voiture'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -21,13 +21,3 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-        # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
-    Aws\\S3\\S3Client:
-        arguments:
-            - version: 'latest'
-              region: 'eu-east-1'
-              endpoint: '127.0.0.1:9000'
-              credentials:
-                key: 'access1234'
-                secret: 'secret1234'

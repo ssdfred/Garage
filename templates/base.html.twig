@@ -8,57 +8,50 @@
 				Garage V-Perrot
 			{% endblock %}
 		</title>
-		<link
-		rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><text y='1.2em' font-size='96'>⚫</text></svg>">
+		<link rel="icon" type="image/png" href="{{ asset('uploads/Logo/logo.svg')}}">
 
-		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		{% block stylesheets %}
-			<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 			{{ encore_entry_link_tags('app') }}
-			<link rel="preconnect" href="https://fonts.googleapis.com">
-			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-			<link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans&display=swap" rel="stylesheet">
+
+
 		{% endblock %}
 	</head>
 	<body>
 		{% block header %}
-			<nav class="navbar navbar-expand-lg one">
+			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-					{#<a class="navbar-brand" href="/">Garage</a>#}
-					<ul
-						class="navbar-nav me-auto mb-2 mb-lg-0">
-						 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %} 
-						<li class="nav-item">
-							<a class="nav-link one" href="/admin">admin</a>
-						</li>
-						 {% endif %} 
+					<a href="/">
+						<img class="logo" src="{{ asset('uploads/Logo/logo.svg') }}" alt="Logo du garage V.Parrot"/>
+					</a>
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
+							<li class="nav-item">
+								<a class="nav-link one" href="/admin">admin</a>
+							</li>
+						{% endif %}
 					</ul>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
+
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+
 						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 							<li class="nav-item">
-								<a class="nav-link one" aria-current="page" href="/">Accueil</a>
+								<a class="nav-link" aria-current="page" href="/" alt="Accueil">Accueil</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link one" href="/service">Services</a>
+								<a class="nav-link" href="/voiture/new">Voiture</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link one" href="/voiture/new">Contact</a>
+								<a class="nav-link" href="/temoignage/new">Témoignage</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/contact">Contact</a>
 							</li>
 						</ul>
-						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-							<li class="nav-item">
-								<a class="nav-link one" aria-current="page" href="/">Accueil</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link one" href="/service">Services</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link one" href="/voiture/new">Contact</a>
-							</li>
-						</ul>
+
 						{# vérifie si l'utilisateur est connecté #}
 						{% if app.user %}
 							Bienvenue<br>
@@ -69,73 +62,80 @@
 							<a href="/login">Se connecter</a>
 						{% endif %}
 					</div>
-					</div>
-				
+				</div>
+
 			</nav>
-							{% endblock %}
+		{% endblock %}
 
-{% block body %}
-{% endblock %}
-							{% block footer %}
-						<footer class="footer footer-inline">
-    <div class="container-footer">
-        <div class="row row-inline">
-            <div class="col-md-6 mx-auto text-center">
-                <ul class="list-inline">
-                    <li class="list-inline-item text-primary"><a href="{{ path('accueil') }}">Accueil</a></li>
-										<li class="list-inline-item"><a href="{{ path('login') }}">Login</a></li>
-                </ul>
-            </div>
+		{% block body %}{% endblock %}
 
-        </div>
-				            <div class="col-md-6 mx-auto">
-                <h1 class="footer-title">Garage V.Parrot</h1>
-            </div>
-        <div class="row row-inline">
-				
-            <div class="col-md-4">
-                <ul class="list-inline">
-                    <li class="list-inline-item row">
-										<p class="footer-contact">Téléphone : 04.67.76.06.24</p></li>
-                    <li class="list-inline-item row">
-										<p class="footer-contact">Adresse : 22 boulevard de Verdun</p></li>
-										<li class="list-inline-item row">
-										<p class="footer-contact">34500, Béziers</p></li>
-                </ul>
-            </div>
-            {#<div class="col-md-4">
-                <h1 class="footer-title">Garage V.Parrot</h1>
-            </div>#}
-            <div class="col-md-4 footer">
-                <h2 class="footer-title">Horaires d'ouverture</h2>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Jour</th>
-                            <th>Ouverture</th>
-                            <th>Fermeture</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for horaire in horaires %}
-                            <tr>
-                                <td>{{ horaire.jourSemaine }}</td>
-                                <td>{{ horaire.heureOuverture|date('H:i') }}</td>
-                                <td>{{ horaire.heureFermeture|date('H:i') }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</footer>
-							{% endblock %}
+		{% block footer %}
+			<footer class="footer footer-inline">
+				<div class="container-footer">
+					<div class="row row-inline">
+						<div class="col-md-6 mx-auto text-center">
+							<ul class="list-inline">
+								<li class="list-inline-item text-primary">
+									<a href="{{ path('accueil') }}">Accueil</a>
+								</li>
+								<li class="list-inline-item">
+									<a href="{{ path('login') }}">Login</a>
+								</li>
+							</ul>
+						</div>
 
-							{% block javascripts %}
-								{{ encore_entry_script_tags('app') }}
-								{#<script src="{{ asset('app.js') }}"></script>#}
-							{% endblock %}
+					</div>
+					<div class="col-md-6 mx-auto">
+						<h1 class="footer-title">Garage V.Parrot</h1>
+					</div>
+					<div class="row row-inline">
+
+						<div class="col-md-4">
+							<ul class="list-inline">
+								<li class="list-inline-item row">
+									<p class="footer-contact">Téléphone : 04.67.76.06.24</p>
+								</li>
+								<li class="list-inline-item row">
+									<p class="footer-contact">Adresse : 22 boulevard de Verdun</p>
+								</li>
+								<li class="list-inline-item row">
+									<p class="footer-contact">34500, Béziers</p>
+								</li>
+							</ul>
+						</div>
+						{#<div class="col-md-4">
+						                <h1 class="footer-title">Garage V.Parrot</h1>
+						            </div>#}
+						<div class="col-md-4 footer">
+							<h2 class="footer-title">Horaires d'ouverture</h2>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Jour</th>
+										<th>Ouverture</th>
+										<th>Fermeture</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for horaire in horaires %}
+										<tr>
+											<td>{{ horaire.jourSemaine }}</td>
+											<td>{{ horaire.heureOuverture|date('H:i') }}</td>
+											<td>{{ horaire.heureFermeture|date('H:i') }}</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</footer>
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+
+		{% endblock %}
 
 
 	</body>

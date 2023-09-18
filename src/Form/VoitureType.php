@@ -64,6 +64,7 @@ class VoitureType extends AbstractType
                     ])
                 ],
             ])
+
             ->add('caracteristiques', TextType::class)
             ->add('equipementsOptions', TextType::class);
     }

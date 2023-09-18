@@ -30,21 +30,7 @@ class HoraireCrudController extends AbstractCrudController
             ->add(Crud::PAGE_EDIT, $duplicate);
     }
 
-    public function duplicateMenu(AdminContext $context, EntityManagerInterface $em, AdminUrlGenerator $adminUrlGenerator): RedirectResponse
-    {
-        $voiture = $context->getEntity()->getInstance();
-        $duplicateVoiture = clone $voiture;
 
-
-        parent::persistEntity($em, $duplicateVoiture);
-
-        $url = $adminUrlGenerator->setController(self::class)
-            ->setAction(Action::DETAIL)
-            ->setEntityId($duplicateVoiture->getId())
-            ->generateUrl();
-
-        return $this->redirect($url);
-    }
     /*
     public function configureFields(string $pageName): iterable
     {

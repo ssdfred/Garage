@@ -2,20 +2,18 @@
 
 namespace App\Controller;
 
-use App\Form\ContactType;
-use App\Entity\FormulaireContact;
-use App\Repository\HoraireRepository;
 use App\Entity\Voiture;
 use App\Form\VoitureType;
-use App\Repository\VoitureRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\VoitureRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\FormulaireContact;
+use App\Repository\HoraireRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class VoitureController extends AbstractController
@@ -23,46 +21,43 @@ class VoitureController extends AbstractController
     private VoitureRepository $voitureRepository;
     private EntityManagerInterface $entityManager;
 
-
     public function __construct(VoitureRepository $voitureRepository, EntityManagerInterface $entityManager)
     {
         $this->voitureRepository = $voitureRepository;
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/voitures', name: 'voitures')]
-    public function index(): Response
+    #[Route('/voiture/new', name: 'voiture_new', methods: ['GET', 'POST'])]
+
+    public function new(Request $request,
+    HoraireRepository $horaireRepository,
+    ManagerRegistry $doctrine,
+    SluggerInterface $slugger): Response
     {
         
         $voitures = $this->voitureRepository->findAll();
-
-        return $this->render('voiture/index.html.twig', [
-            'voitures' => $voitures,
-        ]);
-    }
-
-    #[Route('/voiture/new', name: 'voiture_new')]
-    public const ACTION_DUPLICATE = 'duplicate';
-    public const VOITURE_BASE_PATH = 'uploads/Voiture';
-    public const VOITURE_UPLOAD_DIR = 'public/uploads/Voiture';
-    public function create(Request $request, HoraireRepository $horaireRepository, ManagerRegistry $doctrine,SluggerInterface $slugger): Response
-    {
         $horaires = $horaireRepository->findAll();
 
         $voiture = new Voiture();
-dump($voiture);
+        
         $form = $this->createForm(VoitureType::class, $voiture);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('image')->getData();
-
-            if ($image) {
+            $galerieImages = $form->get('galerieImages')->getData();
+            if ($image && $galerieImages) {
                 $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalFilename = pathinfo($galerieImages->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $galerieImages->guessExtension();
                 try {
                     $image->move(
+                        $this->getParameter('uploads'),
+                        $newFilename
+                    );
+                    $galerieImages->move(
                         $this->getParameter('uploads'),
                         $newFilename
                     );
@@ -70,22 +65,25 @@ dump($voiture);
                   //  dump($e);
                 }
                 $voiture->setImage($newFilename);
+                $voiture->setGalerieImages($newFilename);
             }
             $voiture->setUser($this->getUser());
-            $voiture->$doctrine->getManager();
-            $this->entityManager->persist($voiture);
-            $this->entityManager->flush();
+            $em = $doctrine->getManager();
+            $em->persist($voiture);
+            $em->flush();
 
-            return $this->redirectToRoute('voitures');
+            //return $this->redirectToRoute('accueil');
         }
 
         return $this->render('voiture/create.html.twig', [
             'form' => $form->createView(),
+            'voitures' => $voitures,  
             'horaires' => $horaires,
         ]);
     }
 
-    #[Route('/voiture/{id}', name: 'voiture_show')]
+
+    #[Route('/voiture/{id}/show', name: 'voiture_show')]
     public function show(Voiture $voiture): Response
     {
         return $this->render('voiture/show.html.twig', [

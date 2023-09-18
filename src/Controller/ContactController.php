@@ -39,7 +39,7 @@ class ContactController extends AbstractController
      $voitureTitre = $voiture->getTitre();
      $voitureAnnee = $voiture->getAnneeMiseCirculation();
      $content = '<input id="contact_sujet">Titre de la voiture sélectionnée : ' . $voitureTitre . '</input>';
-     $content .= '<input id="anneeMiseCirculation">Année de mise en circulation : ' . $voitureAnnee->format('d/m/Y') . '</input>';
+     $content = '<input id="anneeMiseCirculation">Année de mise en circulation : ' . $voitureAnnee->format('d/m/Y') . '</input>';
         // Créer une instance du formulaire de contact
         $contact = new FormulaireContact();
        

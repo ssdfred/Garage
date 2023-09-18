@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Entity;
-use App\Entity\FormulaireContact;
 
+use App\Entity\FormulaireContact;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\VoitureRepository;
-use Doctrine\DBAL\Types\Types;
-
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VoitureRepository::class)]
@@ -36,7 +34,7 @@ class Voiture
     #[ORM\Column(type: "integer")]
     private $kilometrage;
 
-    #[ORM\Column(type: "text")]
+    #[ORM\Column(type: "text", nullable: true)]
     private $galerieImages;
 
     #[ORM\Column(type: "text")]

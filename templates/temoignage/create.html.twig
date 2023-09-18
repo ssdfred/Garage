@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouveau témoignage{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1 class="mt-5">Créer un nouveau témoignage</h1>
+
+    {{ form_start(form, {'attr': {'class': 'mt-4'}}) }}
+    
+    <div class="mb-3">
+    {{ form_label(form.nom, 'Nom', {'attr': {'class': 'form-label'}}) }}
+    
+    {# Si l'utilisateur est connecté, affichez son nom dans le champ "Nom" #}
+    {% if app.user %}
+        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}, 'value': app.user.nom}) }}
+    {% else %}
+        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+    {% endif %}
+</div>
+
+    <div class="mb-3">
+      {{ form_label(form.commentaire, 'Commentaire', {'attr': {'class': 'form-label'}}) }}
+      {{ form_widget(form.commentaire, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+      <label for="note">Note :</label>
+      <div class="star-rating">
+        <i class="bi bi-star star" data-rating="1"></i>
+        <i class="bi bi-star star" data-rating="2"></i>
+        <i class="bi bi-star star" data-rating="3"></i>
+        <i class="bi bi-star star" data-rating="4"></i>
+        <i class="bi bi-star star" data-rating="5"></i>
+      </div>
+      <input type="hidden" id="note" name="note" value="1">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+
+    {{ form_end(form) }}
+  </div>
+  <script>
+    // Fonction pour les étoiles de notation
+    document.addEventListener('DOMContentLoaded', function () {
+      const stars = document.querySelectorAll('.star');
+      const noteInput = document.getElementById('note');
+
+      stars.forEach((star) => {
+        star.addEventListener('click', () => {
+          const rating = star.getAttribute('data-rating');
+          noteInput.value = rating;
+
+          // Réinitialisez la classe des étoiles
+          stars.forEach((s) => {
+            s.classList.remove('bi-star');
+          });
+
+          // Définissez la classe "bi-star-fill" pour les étoiles jusqu'à la note sélectionnée
+          stars.forEach((s) => {
+            if (s.getAttribute('data-rating') <= rating) {
+              s.classList.add('bi-star-fill');
+            } else {
+              s.classList.add('bi-star');
+            }
+          });
+        });
+      });
+    });
+  </script>
+{% endblock %}
