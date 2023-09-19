@@ -41,14 +41,16 @@
 							<li class="nav-item">
 								<a class="nav-link" aria-current="page" href="/" alt="Accueil">Accueil</a>
 							</li>
+							{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYE') %}
 							<li class="nav-item">
 								<a class="nav-link" href="/voiture/new">Voiture</a>
 							</li>
+							{% endif %}
 							<li class="nav-item">
-								<a class="nav-link" href="/temoignage/new">Témoignage</a>
+								<a class="nav-link" href="/temoignage">Témoignage</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="/contact">Contact</a>
+								<a class="nav-link" href="/message">Contact</a>
 							</li>
 						</ul>
 
@@ -134,6 +136,7 @@
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
+
 
 		{% endblock %}
 

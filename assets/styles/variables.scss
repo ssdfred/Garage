@@ -18,7 +18,7 @@ $theme-colors: (
   "primary": $primary-color,
   "secondary": $secondary-color,
   "light": $white-color,
-
+  "btn-primary": $primary-color,
 );
 
 // Importe à nouveau les fichiers Bootstrap pour tenir compte des modifications

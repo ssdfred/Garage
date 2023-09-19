@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous contacter
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    	<h1>Nous contacter</h1>
+    
+    {# Afficher le formulaire en utilisant la fonction form() #}
+    {{ form_start(form) }}
+    
+    
+    {# Champ Nom #}
+    {{ form_row(form.nom) }}
+    
+    {# Champ Prénom #}
+    {{ form_row(form.prenom) }}
+    
+    {# Champ Email #}
+    {{ form_row(form.email) }}
+    
+    {# Champ Message #}
+    {{ form_row(form.message) }}
+    
+    {# Champ Numéro de téléphone #}
+    {{ form_row(form.numeroTelephone) }}
+    
+    
+    {# Bouton Envoyer #}
+    {{ form_row(form.envoyer) }}
+    
+    {{ form_end(form) }}
+</div>
+{% for flash_message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ flash_message }}
+    </div>
+{% endfor %}
+
+{% endblock %}
+
+
+

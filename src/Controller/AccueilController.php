@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Voiture;
+use App\Entity\FormulaireContact;
+use App\Form\ContactType;
 use App\Repository\HoraireRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\ServiceRepository;
@@ -35,7 +36,7 @@ class AccueilController extends AbstractController
     TemoignageRepository $temoignageRepository
     ): Response
     {
-
+       
         $voitures = $voitureRepository->findAll();
         $horaires = $horaireRepository->findAll();
         $temoignages = $temoignageRepository->findByCreatedAtDesc();
@@ -87,9 +88,36 @@ class AccueilController extends AbstractController
             'Content-Type' => 'application/json', // Spécifier le type de contenu JSON
         ]);
     }
-
+    #[Route('/message', name: 'message', methods: ['GET','POST'])]
+    public function newContact(Request $request, ManagerRegistry $doctrine,VoitureRepository $voitureRepository, HoraireRepository $horaireRepository): Response
+    {
+        $voitures = $voitureRepository->findAll();
+        $horaires = $horaireRepository->findAll();
+       $contact = new FormulaireContact();
+    
+        // Créer le formulaire de contact et le gérer
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+    
+        // Vérifier que le formulaire est valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Enregistrer l'entité FormulaireContact en base de données
+            $em = $doctrine->getManager();
+            $em->persist($contact);
+            $em->flush();
+    
+    // Après avoir enregistré le message avec succès
+            $this->addFlash('success', 'Votre message a bien été envoyé.');
+            return $this->redirect('accueil') ;
+          }
+         
+          return $this->render('contact/message.html.twig', [
+            'form' => $form->createView(),
+            'voitures' => $voitures,
+            'horaires' => $horaires,
+        ]);
    
-
+    }
     #[Route('/search', name: 'search', methods: ['POST'])]
     public function search(Request $request, VoitureRepository $voitureRepository): Response
     {

@@ -17,7 +17,7 @@ class FormulaireContact
     #[ORM\Column(type: "integer")]
     private $id;
 
-    #[ORM\Column(type: "text")]
+    #[ORM\Column(type: "text", nullable: true)]
     private $Sujet;
 
     #[ORM\Column(type: "string", length: 255)]

@@ -97,7 +97,12 @@ li.list-inline-item>a{
   margin-right: 5px;
 }
 
+.btn-primary {
+  background-color: $primary-color;
+  border-color: $secondary-color;
+  color: $Black-color;
 
+}
 
 .logo {
   margin-left: 5px;

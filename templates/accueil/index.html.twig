@@ -4,6 +4,8 @@
 {% endblock %}
 
 {% block body %}
+
+
 	<div
 		class="container recherche" id="navbarSupportedContent">
 		<!-- Champs de recherche -->
@@ -91,8 +93,12 @@
     </div>
   </div>  
 {% endfor %}
-
-<div class="container col-md-3">
-	<a href="/temoignage" class="btn btn-primary contact">Voir nos témoignages</a>
+<div class="container row justify-content-end">
+		<div class="col-md-3">
+			<a class="btn btn-primary" href="/temoignage/new">Ajouter votre Témoignage</a>
+		</div>
+	<div class="col-md-3">
+		<a href="/temoignage" class="btn btn-primary contact">Voir nos témoignages</a>
+	</div>
 </div>
 {% endblock %}
