@@ -3,7 +3,7 @@
 use App\Kernel;
 
 
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+require_once dirname(__DIR__).require('vendor/autoload.php');;
 
 
 return function (array $context) {
