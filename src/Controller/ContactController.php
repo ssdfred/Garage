@@ -14,7 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
-
+use Symfony\Component\Mailer\Messenger\SendEmailMessage;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 
 class ContactController extends AbstractController
@@ -26,8 +27,10 @@ class ContactController extends AbstractController
         Request $request,
         MailerInterface $mailer,
         ManagerRegistry $doctrine,
+        MessageBusInterface $bus,
         int $id
     ): Response {
+        $bus->dispatch(new SendEmailMessage(new TemplatedEmail()));
         // Récupérer la voiture correspondante
         $voiture = $voitureRepository->find($id);
     

@@ -15,8 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Message\SmsNotification;
+
 
 
 class AccueilController extends AbstractController
@@ -33,10 +33,11 @@ class AccueilController extends AbstractController
     #[Route('/', name: 'accueil')]
     public function index(VoitureRepository $voitureRepository,
     HoraireRepository $horaireRepository,
-    TemoignageRepository $temoignageRepository
+    TemoignageRepository $temoignageRepository,
+    
     ): Response
     {
-       
+        
         $voitures = $voitureRepository->findAll();
         $horaires = $horaireRepository->findAll();
         $temoignages = $temoignageRepository->findByCreatedAtDesc();

@@ -5,14 +5,14 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async: doctrine://default
+            #async: doctrine://default
             
             # failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
 
         routing:
             # Route your messages to the transports
-            'App\Controller\AccueilController': async
+            #'App\MessageHandler\SmsNotificationHandler': async
 
 # when@test:
 #    framework:
