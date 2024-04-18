@@ -13,7 +13,7 @@ en effectuant : git clone https://github.com/ssdfred/Garage.git
 
 6: créer les tables de la base de données en utilisant symfony console: `php bin/console make:migration` puis `php bin/console doctrine:migrations:migrate`
 
-4: visualisez la page d'accueil de l'application et rentrez l'identifiant et le mot de passe de l'administrateur: email:  a@a.fr  mot de passe: 123456
+
 
 5: vous pouvez vous rendre sur la page admin pour ajouter ou modifier les horaires, les voiture
 
